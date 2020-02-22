@@ -1,5 +1,13 @@
 import React, {Component } from 'react'
-import {View, Text, ImageBackground, StyleSheet, TextInput, Button, Alert} from 'react-native'
+import {View,
+        Text,
+        ImageBackground,
+        StyleSheet,
+        TextInput,
+        Button,
+        Alert,
+        TouchableOpacity
+        } from 'react-native'
 
 import fundo from '../../assets/imgs/fundo.jpg'
 
@@ -24,18 +32,19 @@ export default class Login extends Component{
                                  placeholder = {'Senha'}
                                  placeholderTextColor = {'#fff'}
                                  keyboardType = {'default'}/>
+
+                            <Text style = { {fontsize : 17 ,color:'#fff',marginTop: -10}}>Possui cadastro? Inscreva-se </Text>
                           
                           <View style={styles.containerButton}>
                            
-                            <View style = {styles.button}>
-                                <Text style={styles.textoButton}>Logar</Text>
-                            </View>
-                            <View style = {styles.button}>
-                                <Text style={styles.textoButton}>Sair</Text>
-                            </View>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={()=>{this.props.navigation.navigate('Home')}} >
+                                <Text style = {styles.textoButton}> Logar</Text>
+                            </TouchableOpacity>
                             
                           </View>
-                        <Text style={{fontSize: 20, color: '#fff', marginTop: 30, padding: 2,textDecorationLine: 'underline'}}> Esqueceu sua senha ?</Text>
+                        <Text style={{fontSize: 18, color: '#fff', marginTop: -10, padding: 2,}}> Esqueceu sua senha ?</Text>
                         </View>
 
                 </ImageBackground>
@@ -82,15 +91,15 @@ const styles = StyleSheet.create({
         },
 
     button: {
-        width: 70,
-        height: 40,
+        width: '80%',
+        height: 45,
         backgroundColor: '#FFF',
         borderWidth: 1,
         borderColor: "#AAA",
         color: '#000',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 14,
+        borderRadius: 8,
         margin: 5,
 
     },
