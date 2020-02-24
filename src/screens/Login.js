@@ -11,7 +11,6 @@ import {View,
 
 import axios from 'axios'
 
-
 import fundo from '../../assets/imgs/fundo.jpg'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -27,6 +26,23 @@ export default class Login extends Component{
     state = {
         email: '',
         password: '',
+        autenticado: false,
+    }
+    
+    navigateToHome=()=>{
+        this.props.navigation.navigate('Home')
+    }
+
+    erro =(code) =>{
+        if (code==400 ) {
+            Alert.alert("erro no email ou senha")
+            return true
+        }else {
+            Alert.alert("Erro desconhecido")
+            return true
+        }
+        
+
     }
 
     signin = async () => {
@@ -35,11 +51,21 @@ export default class Login extends Component{
                 email: this.state.email,
                 password: this.state.password
             })
-
+            
+            console.log(res)
             axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
-            this.props.nagivation.navigate('Home')
+            if (res.status == '200'){
+                this.navigateToHome()
+                
+            }else{
+                Alert.alert("Falha")
+            }
+            
+            
         }catch(e){
+            console.log(e)
             showError(e)
+            //this.props.navigation.navigate('Home')
         }
     }
     
