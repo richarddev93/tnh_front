@@ -30,7 +30,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Login} />
+        <Stack.Screen name="Home" component={Login}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

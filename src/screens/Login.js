@@ -1,4 +1,4 @@
-import React, {Component } from 'react'
+import React, {Component, useState, useEffect } from 'react'
 import {View,
         Text,
         ImageBackground,
@@ -6,48 +6,89 @@ import {View,
         TextInput,
         Button,
         Alert,
-        TouchableOpacity
+        TouchableOpacity,
         } from 'react-native'
 
+import axios from 'axios'
+
+
 import fundo from '../../assets/imgs/fundo.jpg'
+import { createStackNavigator } from '@react-navigation/stack'
+
+import Home from '../components/Home'
+import AuthInput from '../components/AuthInput'
+    
+
+import {server,showError, showSuccess} from '../common'
+
 
 export default class Login extends Component{
+   
+    state = {
+        email: '',
+        password: '',
+    }
+
+    signin = async () => {
+        try{
+            const res = await axios.post(`${server}`,{
+                email: this.state.email,
+                password: this.state.password
+            })
+
+            axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
+            this.props.nagivation.navigate('Home')
+        }catch(e){
+            showError(e)
+        }
+    }
+    
+
     render(){
+        
         return(
             <View style={styles.container}>
-                <ImageBackground source={fundo}
-                    style={styles.background}>
+                
                     
-                        <View style={styles.conteudo}>
+                        <View style ={ styles.conteudo}>
                           
-                            <TextInput editable maxLength={60} 
+                            <AuthInput 
+                                 icon = 'user'
+                                 editable maxLength={60} 
                                  autoCompleteType={"username"} 
+                                 value = {this.state.email}
                                  style = {styles.inputs}
                                  placeholder = {'Usuário'}
-                                 placeholderTextColor = {'#fff'}/>
+                                 placeholderTextColor = {'#AAA'}
+                                 onChangeText = {email => this.setState({email})}
+                                 autoCorrect = {false}
+                                 />
                            
-                            <TextInput editable maxLength={30} 
+                            <AuthInput icon='lock' editable maxLength={30} 
                                  autoCompleteType={"password"} 
+                                 value = {this.state.senha}
                                  style = {styles.inputs}
                                  placeholder = {'Senha'}
-                                 placeholderTextColor = {'#fff'}
+                                 placeholderTextColor = {'#AAA'}
+                                 secureTextEntry = {true}
+                                 onChangeText = {password => this.setState({password})}
                                  keyboardType = {'default'}/>
 
-                            <Text style = { {fontsize : 17 ,color:'#fff',marginTop: -10}}>Possui cadastro? Inscreva-se </Text>
+                            <Text style = { {fontSize : 17 ,color:'#fff',marginTop: 5}}>Possui cadastro? Inscreva-se </Text>
                           
                           <View style={styles.containerButton}>
                            
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={()=>{this.props.navigation.navigate('Home')}} >
+                                onPress={this.signin} >
                                 <Text style = {styles.textoButton}> Logar</Text>
                             </TouchableOpacity>
                             
                           </View>
-                        <Text style={{fontSize: 18, color: '#fff', marginTop: -10, padding: 2,}}> Esqueceu sua senha ?</Text>
+                        <Text style={{fontSize: 18, color: '#fff', marginTop: -5, padding: 2,}}> Esqueceu sua senha ?</Text>
                         </View>
 
-                </ImageBackground>
+               
             </View>
         )
     }
@@ -57,10 +98,7 @@ export default class Login extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-
-    background: {
-        flex:1,
+        backgroundColor: '#1c1c1c'
     },
 
     conteudo: {
@@ -71,14 +109,15 @@ const styles = StyleSheet.create({
     },
 
     inputs:{
-        width: '80%',
-        height: 30,
-        borderRadius: 1,
-        borderBottomWidth: 2,  
+        width: '90%',
+        height: 50,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#555',  
         margin: 15,
-        padding: 5,
+        padding: 10,
         fontSize:  17,
-        fontWeight: 'bold',
+        backgroundColor: '#fff'
         
     },
 
@@ -91,21 +130,20 @@ const styles = StyleSheet.create({
         },
 
     button: {
-        width: '80%',
+        width: '95%',
         height: 45,
-        backgroundColor: '#FFF',
-        borderWidth: 1,
-        borderColor: "#AAA",
-        color: '#000',
+        backgroundColor: '#4169E1',
+        color: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 8,
-        margin: 5,
+        marginBottom: 5,
 
     },
     textoButton:{
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color:'#fff',
     },
 
     logo: {

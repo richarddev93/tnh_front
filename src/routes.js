@@ -12,7 +12,7 @@ function Routes() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName ="Login" >
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Login" component={Login} options = {{title: null, headerStatusBarHeight: -32}}/>
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
