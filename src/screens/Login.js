@@ -11,7 +11,7 @@ import {View,
 
 import axios from 'axios'
 
-import fundo from '../../assets/imgs/fundo.jpg'
+import fundo from '../../assets/imgs/fundoDefinitivo.jpg'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import Home from '../components/Home'
@@ -29,11 +29,15 @@ export default class Login extends Component{
         autenticado: false,
     }
     
-    navigateToHome=()=>{
+    navigateToHome = () => {
         this.props.navigation.navigate('Home')
     }
 
-    erro =(code) =>{
+    navigateToCadastro = () => {
+        this.props.navigation.navigate('Cadastro')
+    }
+
+   erro =(code) =>{
         if (code==400 ) {
             Alert.alert("erro no email ou senha")
             return true
@@ -73,10 +77,12 @@ export default class Login extends Component{
     render(){
         
         return(
-            <View style={styles.container}>
+            <View style = {styles.container}>
+
+               
                 
                     
-                        <View style ={ styles.conteudo}>
+                        <View style ={styles.conteudo}>
                           
                             <AuthInput 
                                  icon = 'user'
@@ -88,6 +94,7 @@ export default class Login extends Component{
                                  placeholderTextColor = {'#AAA'}
                                  onChangeText = {email => this.setState({email})}
                                  autoCorrect = {false}
+                                 
                                  />
                            
                             <AuthInput icon='lock' editable maxLength={30} 
@@ -100,7 +107,12 @@ export default class Login extends Component{
                                  onChangeText = {password => this.setState({password})}
                                  keyboardType = {'default'}/>
 
-                            <Text style = { {fontSize : 17 ,color:'#fff',marginTop: 5}}>Possui cadastro? Inscreva-se </Text>
+                          <TouchableOpacity onPress = {this.navigateToCadastro}>
+                            <Text style = { 
+                                {fontSize : 17 
+                                ,color:'#fff'
+                                ,marginTop: 5
+                                }}>Possui cadastro? Inscreva-se </Text></TouchableOpacity>
                           
                           <View style={styles.containerButton}>
                            
@@ -115,6 +127,8 @@ export default class Login extends Component{
                         </View>
 
                
+             
+        
             </View>
         )
     }
@@ -124,7 +138,11 @@ export default class Login extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1c1c1c'
+        
+    },
+
+    background:{
+        flex:1
     },
 
     conteudo: {
