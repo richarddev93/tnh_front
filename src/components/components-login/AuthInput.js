@@ -1,21 +1,27 @@
 import React from 'react'
 import { View, TextInput, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 
 export default props => {
+   
+   
+   
     return(
         <View style = {styles.container}> 
-            <Icon name = {props.icon} size = {20} style={styles.icon}/>
+                
+            <Icon name = {props.icon} size = {20} style={styles.icon} color = {'#AAA'}/>
             <TextInput {...props} style = {styles.input}/>
+        
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: '90%',
-        height: 50,
+        width: 320,
+        height: 45,
         margin: 5,
         backgroundColor: '#eee',
         borderRadius: 8,
@@ -24,7 +30,7 @@ const styles = StyleSheet.create({
         fontSize:  17,
     },
     icon:{
-        color: '#333',
+        color: '#AAA',
         marginLeft: 20,
     },
     input: {

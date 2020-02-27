@@ -10,12 +10,14 @@ import {View,
         } from 'react-native'
 
 import axios from 'axios'
+import * as Font from 'expo-font'
 
-import fundo from '../../assets/imgs/fundoDefinitivo.jpg'
+import fundo from '../../assets/imgs/background/fundoDefinitivo.jpg'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import Home from '../components/Home'
-import AuthInput from '../components/AuthInput'
+import Home from './Home'
+import AuthInput from '../components/components-login/AuthInput'
+import commonStyles from '../commonStyles'
     
 
 import {server,showError, showSuccess} from '../common'
@@ -23,10 +25,20 @@ import {server,showError, showSuccess} from '../common'
 
 export default class Login extends Component{
    
+
+    hideOrShowPassword = () =>{
+        if(escondeSenha == true){
+            escondeSenha = false;
+        }else{
+            escondeSenha = true;
+        }
+    }
+    
     state = {
         email: '',
         password: '',
         autenticado: false,
+        escondeSenha : true
     }
     
     navigateToHome = () => {
@@ -78,12 +90,19 @@ export default class Login extends Component{
         
         return(
             <View style = {styles.container}>
-
-               
                 
-                    
+                <ImageBackground source = {fundo}
+                       style = {styles.background}>
+                        
+                         <View style = {styles.containerTitle}>
+                           
+                             <Text style = {styles.title1}>Bem vindo de volta</Text>
+                             <Text style = {styles.title2}>Tem no Helipa</Text>
+                        
+                        </View> 
+                        
                         <View style ={styles.conteudo}>
-                          
+                            <Text style={styles.subTitle}>Login</Text>
                             <AuthInput 
                                  icon = 'user'
                                  editable maxLength={60} 
@@ -97,22 +116,17 @@ export default class Login extends Component{
                                  
                                  />
                            
-                            <AuthInput icon='lock' editable maxLength={30} 
+                            <AuthInput icon='eye' editable maxLength={30} 
                                  autoCompleteType={"password"} 
                                  value = {this.state.senha}
                                  style = {styles.inputs}
                                  placeholder = {'Senha'}
                                  placeholderTextColor = {'#AAA'}
-                                 secureTextEntry = {true}
+                                 secureTextEntry = {this.state.escondeSenha}
                                  onChangeText = {password => this.setState({password})}
+                                 onPress = {this.hideOrShowPassword}
                                  keyboardType = {'default'}/>
-
-                          <TouchableOpacity onPress = {this.navigateToCadastro}>
-                            <Text style = { 
-                                {fontSize : 17 
-                                ,color:'#fff'
-                                ,marginTop: 5
-                                }}>Possui cadastro? Inscreva-se </Text></TouchableOpacity>
+                          
                           
                           <View style={styles.containerButton}>
                            
@@ -123,11 +137,24 @@ export default class Login extends Component{
                             </TouchableOpacity>
                             
                           </View>
-                        <Text style={{fontSize: 18, color: '#fff', marginTop: -5, padding: 2,}}> Esqueceu sua senha ?</Text>
+                            <TouchableOpacity onPress = {this.navigateToCadastro}><Text style={{fontSize: 18, color: '#000', marginTop: -5, padding: 2,}}> 
+                             Esqueceu sua senha ?
+                            </Text></TouchableOpacity>
+                        
+                        
+
                         </View>
 
-               
-             
+                    <TouchableOpacity onPress = {this.navigateToHome}>
+                            <Text style = { 
+                                {fontSize : 15
+                                ,color:'#000'
+                                ,marginBottom: 10
+                                ,alignItems: 'flex-end'
+                                ,justifyContent: 'center'
+                                }}>Possui cadastro? Inscreva-se </Text></TouchableOpacity>
+
+                </ImageBackground>     
         
             </View>
         )
@@ -142,14 +169,16 @@ const styles = StyleSheet.create({
     },
 
     background:{
-        flex:1
+        flex:1,
+        alignItems: 'center'
+    
     },
 
     conteudo: {
         flex: 2,
         justifyContent:'center',
         alignItems: 'center',
-        marginTop: 160
+        marginTop: -230
     },
 
     inputs:{
@@ -174,9 +203,9 @@ const styles = StyleSheet.create({
         },
 
     button: {
-        width: '95%',
+        width: 320,
         height: 45,
-        backgroundColor: '#4169E1',
+        backgroundColor: commonStyles.colors.secondary,
         color: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
@@ -193,6 +222,37 @@ const styles = StyleSheet.create({
     logo: {
         width: 100,
         height: 100,
-    }
+    },
+
+    subTitle:{
+        fontSize: 45,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        marginLeft: -220,
+        padding: 0,
+    },
+    
+    title1: {
+        fontSize: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontWeight: 'bold'  
+    },
+
+    title2: {
+        fontSize: 45,
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontWeight: 'bold'
+    },
+
+    containerTitle:{
+        flex: 3,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: -170
+
+    },
 
 })

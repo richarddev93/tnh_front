@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 import Login from '../screens/Login.js'
-import Home from './Home.js'
+import Home from '../screens/Home'
 // const MainNav = createSwitchNavigator (
 //     {
 //         Login:{
