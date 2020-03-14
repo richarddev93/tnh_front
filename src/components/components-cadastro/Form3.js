@@ -5,17 +5,29 @@ import {View,
         TouchableOpacity,
         StyleSheet,
         Slider,
-        Alert} from 'react-native'
+        Alert,
+        Dimensions} from 'react-native'
 import axios from 'axios'
 
 import commonStyles from '../../commonStyles'
 
-import barCad from './barCad'
+import { createStackNavigator } from '@react-navigation/stack'
+
 import {showError} from '../../common'
+
+
+let ScreenWidth = Dimensions.get('window').width
+let ScreenHeight = Dimensions.get('window').height
+
 
  export default class Form extends Component{
    
-    
+    NavigateForm2 = () => {
+        this.props.navigation.navigate('Form2')
+    }
+    NavigateForm4 = () => {
+        this.props.navigation.navigate('Form4')
+    }
 
    state = {
         id : 0,
@@ -105,7 +117,20 @@ import {showError} from '../../common'
                         <View style = {styles.ball3}></View>
                         <View style = {styles.ball4}></View>
                     </View>
-                    
+                    <View style = {styles.containerButton}> 
+                    <TouchableOpacity style = {styles.buttonVolt}
+                        onPress = {
+                          this.NavigateForm2
+                        }>
+                        <Text style = {styles.buttonText}> Voltar </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style = {styles.button}
+                        onPress = {
+                          this.NavigateForm4
+                        }>
+                        <Text style = {styles.buttonText}> Próximo </Text>
+                    </TouchableOpacity>
+                </View>      
                 
             </View>
         )
@@ -176,7 +201,7 @@ const styles = StyleSheet.create({
         height: 10,
         width: 10,
         borderRadius: 5,
-        backgroundColor: commonStyles.colors.primary,
+        backgroundColor: commonStyles.colors.secondary,
 
     },
     ball2: {
@@ -190,7 +215,7 @@ const styles = StyleSheet.create({
         height: 10,
         width: 10,
         borderRadius: 5,
-        backgroundColor: commonStyles.colors.secondary,
+        backgroundColor: commonStyles.colors.primary,
 
     },
     ball4: {
@@ -199,5 +224,58 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: commonStyles.colors.secondary,
 
+    },
+
+     /* BUTTON */
+     containerButton: {
+        width: ScreenWidth,
+        flexDirection:'row',
+        marginTop: 40,
+        alignItems: 'center',
+        justifyContent: 'flex-end'
+    },
+    containerProx:{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        
+    },
+    button:{
+        height: 40,
+        width: 100,
+        backgroundColor: commonStyles.colors.secondary,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 20,
+        marginTop: -30
+    },
+    buttonVolt:{
+        height: 40,
+        width: 100,
+        backgroundColor: commonStyles.colors.secondary,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop:-10,
+        padding: 10,
+        marginHorizontal: 100
+    },
+    buttonProx:{
+        height: 40,
+        width: 100,
+        backgroundColor: commonStyles.colors.secondary,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop:-10,
+        padding: 10,
+        marginRight: -30
+    },
+    buttonText:{
+        fontSize: 15,
+        color: '#FFF',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 })

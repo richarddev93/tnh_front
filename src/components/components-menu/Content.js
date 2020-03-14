@@ -18,6 +18,11 @@ import lava from '../../../assets/imgs/background/background-categorias/lava-rap
 import cabeleireiro from '../../../assets/imgs/background/background-categorias/cabeleireiro.jpg'
 import plus from '../../../assets/imgs/background/background-categorias/more.png'
 
+import Icones from '../components-menu/component-menu-icons/Icones'
+
+let screenWidth = Dimensions.get('window').width;
+let screenHeight = Dimensions.get('window').height;
+
 class Content extends Component {
     
     state = {
@@ -26,51 +31,60 @@ class Content extends Component {
     
     
     render(){
-        let screenWidth = Dimensions.get('window').width;
-        let screenHeight = Dimensions.get('window').height;
+        
         
         return(
             <View style = {styles.container}>
                 <View style = {styles.containerSearchBar}>
-                    <AuthInput icon = 'search' 
+                    <AuthInput
+                        icon2 = 'paper-plane'
                         editable
                         value = {this.state.search}
-                        style = {styles.input}
                         placeholder = {'Busque um serviço ou segmento'}
-                        placeholderTextColor = {'#AAA'}
+                        placeholderTextColor = {'#808080'}
                         onChangeText = {search => this.setState({search})}
                         autoCorrect = {false}
                         />
                 </View>
                 <View style = {styles.conteudo}>
-                    <Text style = {styles.contentTitle}> Categorias </Text>
-                    <SafeAreaView style = {styles.scrollContainer}>
-                    <ScrollView horizontal={true} 
-                    pagingEnabled = {true} 
-                    showsHorizontalScrollIndicator = {true}
-                    >
-                    <View style = {styles.containerQuadro}>                    
-                            <Image source = {restaurante} style = {styles.quadros}/>
-                            <View style = {styles.containerTextoQuadros}>
-                                <Text style = {styles.textoQuadros}> Restaurantes </Text> 
+                        <View style = {styles.containerCategories}>
+                            <View style = {styles.iconText}>
+                                <Icones icon = {'shopping-bag'}/>
+                                <Text style = {styles.textIcon}> Lojas </Text>
                             </View>
-                            <Image source = {lava} style = {styles.quadros}/>
-                            <View style = {styles.containerTextoQuadros}>
-                                <Text style = {styles.textoQuadros}> Lava-Rápido </Text> 
+                            <View style = {styles.iconText}>
+                                <Icones icon = {'coffee'}/>
+                                <Text style = {styles.textIcon}> Café </Text>
                             </View>
-                            <Image source = {cabeleireiro} style = {styles.quadros}/>
-                            <View style = {styles.containerTextoQuadros}>
-                                <Text style = {styles.textoQuadros}> Cabeleireiros </Text> 
+                            <View style = {styles.iconText}>
+                                <Icones icon = {'star'}/>
+                                <Text style = {styles.textIcon}> Eventos </Text>
                             </View>
-                            <Image source = {plus} style = {styles.quadros}/>
-                            <View style = {styles.containerTextoQuadros}>
-                                <Text style = {styles.textoQuadros}> Veja mais </Text> 
+                            <View style = {styles.iconText}>
+                                <Icones icon = {'briefcase'}/>
+                                <Text style = {styles.textIcon}> Empregos </Text>
                             </View>
+                        </View>
+                        <View style = {styles.containerCategories}>
+                            <View style = {styles.iconText}>
+                                <Icones icon = {'car'}/>
+                                <Text style = {styles.textIcon}> Automóveis </Text>
+                            </View>
+                            <View style = {styles.iconText}>
+                                <Icones icon = {'book'}/>
+                                <Text style = {styles.textIcon}> Livrarias </Text>
+                            </View>
+                            <View style = {styles.iconText}>
+                                <Icones icon = {'paw'}/>
+                                <Text style = {styles.textIcon}> Petshop </Text>
+                            </View>
+                            <View style = {styles.iconText}>
+                                <Icones icon = {'ellipsis-h'}/>
+                                <Text style = {styles.textIcon}> Mais </Text>
+                            </View>
+                         </View>
                     </View>
-                    </ScrollView>
-                    </SafeAreaView>
                 </View>
-            </View>
         )
     }
 }
@@ -78,50 +92,41 @@ class Content extends Component {
 const styles = StyleSheet.create({
     /* Container */
     container: {
-        marginTop: 10,
-        padding: 10
+        height: 300,
+        marginTop: -60
     },
    
     containerSearchBar: {
-        flex: 1,
         alignItems: 'flex-start',
         justifyContent: 'center',
+        height: 130,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 10,
+        width: 340,
+        borderWidth: 2,
+        borderColor: '#DCDCDC',
+        margin: 10
     },
     conteudo: {
-        marginTop: 80,
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'center',
-        marginLeft:-220
+        width: '100%',
+        height: 150,
+        marginTop: 10
     },
-    containerQuadro:{
-        alignItems: 'center',
-        justifyContent: 'center',
+    containerCategories: {
+        width: screenWidth,
         flexDirection: 'row',
-        marginLeft: 140
+        alignItems: 'center',
+        justifyContent: "space-evenly",
+        padding: 5,
+        marginTop: 10
     },
-    containerTextoQuadros:{
-        marginLeft: -130,
-        height: 32,
-        backgroundColor: '#000',
-        opacity: 0.7,
-        width: 130,
-        alignItems:'center',
-        justifyContent: 'center',
-    },
-    scrollContainer:{
-        marginLeft: 70,
-        marginTop: -400
-    },
-    /* QUADROS */
-    quadros:{
-        height: 130,
-        width: 130,
-        borderRadius: 20,
-        marginLeft: 10,
-        marginTop: 10,
-        opacity: 0.7,
-        backgroundColor: '#fff',
+    iconText:{
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     /* Textos */
     title: {
@@ -133,21 +138,19 @@ const styles = StyleSheet.create({
     contentTitle: {
         fontSize: 25,
         fontWeight: 'bold',
-        marginLeft: 10
+        marginTop: 40
     },
-    textoQuadros: {
-        fontSize: 20,
-        color: '#fff',
-        fontWeight: 'bold',    
+    textIcon:{
+        fontSize: 15,
     },
     /* Input */
     input: {
         width: '90%',
         borderRadius: 15,
         height: 20,
-        backgroundColor: '#AAA'
-    }
-
+        backgroundColor: '#AAA',
+        marginLeft: 30,
+    },
 
 })
 

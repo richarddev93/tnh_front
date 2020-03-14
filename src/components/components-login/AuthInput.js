@@ -13,6 +13,7 @@ export default props => {
                 
             <Icon name = {props.icon} size = {20} style={styles.icon} color = {'#AAA'}/>
             <TextInput {...props} style = {styles.input}/>
+            <Icon name = {props.icon2} size = {20} style = {styles.icon2}/>
         
         </View>
     )
@@ -21,7 +22,7 @@ export default props => {
 const styles = StyleSheet.create({
     container: {
         width: 320,
-        height: 45,
+        height: 50,
         margin: 5,
         backgroundColor: '#eee',
         borderRadius: 8,
@@ -32,9 +33,15 @@ const styles = StyleSheet.create({
     icon:{
         color: '#AAA',
         marginLeft: 20,
+        padding: 10
+    },
+    icon2:{
+        color: 'tomato',
+        marginRight: 20,
     },
     input: {
-        marginLeft: 20,
-        width: '70%',
+        marginLeft: 0,
+        width: '80%',
+        fontSize: 15,
     }
 })
