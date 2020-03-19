@@ -5,16 +5,24 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 
 
 export default props => {
-   
-   
-   
+ 
+
     return(
         <View style = {styles.container}> 
                 
             <Icon name = {props.icon} size = {20} style={styles.icon} color = {'#AAA'}/>
             <TextInput {...props} style = {styles.input}/>
+<<<<<<< HEAD
             <Icon name = {props.icon2} size = {20} style = {styles.icon2}/>
         
+=======
+            {props.showIconEyepassword ? 
+                <TouchableOpacity onPress = { props.handleVisibility} >
+                    <Icon name = { ( props.secureTextEntry) ? 'eye' : 'eye-slash' }  size = {18} style={styles.icon} color = {'#AAA'}/>
+                </TouchableOpacity>
+                :null
+            }
+>>>>>>> Implementado Alertas,Show Pass ,Manter Conectado e outras melhorias
         </View>
     )
 }

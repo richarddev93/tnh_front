@@ -16,7 +16,15 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 
 class Header extends Component{
+
+    constructor(props){
+        super(props);
+    }
+
     render(){
+
+console.log('Passando Props',this.props.texto)        
+
         return(
             <ImageBackground source = {fundo} style = {styles.container}>
                 <StatusBar backgroundColor = {'#f9ba5b'} barStyle = {'light-content'} ></StatusBar>
@@ -24,7 +32,7 @@ class Header extends Component{
                     <Icon style = {styles.icon} name= {'bars'} size = {30} color = {'#fff'}/>
                 <View style =  {styles.rowContainer2}>   
                    <View style = {styles.columnContainer}>
-                    <Text style = {styles.title}> Olá Richard </Text>
+                    <Text style = {styles.title}> { this.props.texto }</Text>
                     <Text style = {styles.subTitle}> Perfil </Text>
                    </View> 
                     <Icon name = {'user'} size = {30} color = {'#fff'}/>

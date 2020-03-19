@@ -10,11 +10,13 @@ export default {
    
     colors: {
         primary: '#F9AA33',
-        secondary: '#344955'
+        secondary: '#344955',
+        disabled: '#DCDCDC'
     },
     font:{
         
         color: '#000',
+        colorSecondary:'#FFF'
 
     }
 
