@@ -14,14 +14,22 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 
 class Header extends Component{
+
+    constructor(props){
+        super(props);
+    }
+
     render(){
+
+console.log('Passando Props',this.props.texto)        
+
         return(
             <View style = {styles.container}>
                 <View style = {styles.rowContainer}>
                     <Icon style = {styles.icon} name= {'list-ul'} size = {30} color = {'#000'}/>
                 <View style =  {styles.rowContainer2}>   
                    <View style = {styles.columnContainer}>
-                    <Text style = {styles.title}> Olá Richard </Text>
+                    <Text style = {styles.title}> { this.props.texto }</Text>
                     <Text style = {styles.subTitle}> Perfil </Text>
                    </View> 
                     <Icon name = {'user'} size = {30} color = {'#000'}/>
