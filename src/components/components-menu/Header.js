@@ -4,10 +4,12 @@ import {
     Text,
     View,
     Plataform,
-    Image
+    Image,
+    ImageBackground,
+    StatusBar
 } from 'react-native'
 
-
+import fundo from '../../../assets/imgs/background/fundoDefinitivo.jpg'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -24,18 +26,20 @@ class Header extends Component{
 console.log('Passando Props',this.props.texto)        
 
         return(
-            <View style = {styles.container}>
+            <ImageBackground source = {fundo} style = {styles.container}>
+                <StatusBar backgroundColor = {'#f9ba5b'} barStyle = {'light-content'} ></StatusBar>
                 <View style = {styles.rowContainer}>
-                    <Icon style = {styles.icon} name= {'list-ul'} size = {30} color = {'#000'}/>
+                    <Icon style = {styles.icon} name= {'bars'} size = {30} color = {'#fff'}/>
                 <View style =  {styles.rowContainer2}>   
                    <View style = {styles.columnContainer}>
                     <Text style = {styles.title}> { this.props.texto }</Text>
                     <Text style = {styles.subTitle}> Perfil </Text>
                    </View> 
-                    <Icon name = {'user'} size = {30} color = {'#000'}/>
+                    <Icon name = {'user'} size = {30} color = {'#fff'}/>
                 </View>
                 </View>
-            </View>
+            </ImageBackground>
+            
         )
     }
 }
@@ -43,8 +47,9 @@ console.log('Passando Props',this.props.texto)
 const styles = StyleSheet.create({
     /* Containers */
     container: {
-        marginTop: 5,
-        padding: 10,
+        marginTop: 0,
+        padding: 5,
+        height: 150
     },
     rowContainer: {
         flexDirection: 'row',
@@ -66,13 +71,14 @@ const styles = StyleSheet.create({
 
     /* Textos */
     title: {
-        color: '#000',
+        color: '#fff',
         height: 30,
         fontSize: 20,
-        marginTop: 20
+        marginTop: 20,
+        fontWeight: 'bold'
     },
     subTitle: {
-        color: '#000',
+        color: '#fff',
         height: 30,
         fontSize: 15,
         marginLeft: 50,

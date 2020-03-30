@@ -6,14 +6,28 @@ import {View,
         StyleSheet,
         Slider,
         Alert,
-        Image} from 'react-native'
+        Image,
+        Dimensions} from 'react-native'
 import commonStyles from '../../commonStyles'
-import barCad from './barCad'
+
+import { createStackNavigator } from '@react-navigation/stack'
 
 import Yoda from '../../../assets/imgs/logo/yoda.jpg'
 
- export default class Form extends Component{
+
+let ScreenWidth = Dimensions.get('window').width
+let ScreenHeight = Dimensions.get('window').height
+
+
+export default class Form extends Component{
    
+    NavigateForm1 = () => {
+        this.props.navigation.navigate('Form')
+    }
+    NavigateForm3 = () => {
+        this.props.navigation.navigate('Form3')
+    }
+
    state = {
         id : 0,
         nome: '',
@@ -59,8 +73,20 @@ import Yoda from '../../../assets/imgs/logo/yoda.jpg'
                         <View style = {styles.ball3}></View>
                         <View style = {styles.ball4}></View>
                     </View>
-                    
-                
+                    <View style = {styles.containerButton}> 
+                    <TouchableOpacity style = {styles.buttonVolt}
+                        onPress = {
+                          this.NavigateForm1
+                        }>
+                        <Text style = {styles.buttonText}> Voltar </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style = {styles.button}
+                        onPress = {
+                          this.NavigateForm3
+                        }>
+                        <Text style = {styles.buttonText}> Próximo </Text>
+                    </TouchableOpacity>
+                </View>   
             </View>
         )
     }
@@ -168,5 +194,58 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginLeft: 55,
         padding:5
-    }
+    },
+
+    /* BUTTON */
+    containerButton: {
+        width: ScreenWidth,
+        flexDirection:'row',
+        marginTop: 40,
+        alignItems: 'center',
+        justifyContent: 'flex-end'
+    },
+    containerProx:{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        
+    },
+    button:{
+        height: 40,
+        width: 100,
+        backgroundColor: commonStyles.colors.secondary,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 20,
+        marginTop: -30
+    },
+    buttonVolt:{
+        height: 40,
+        width: 100,
+        backgroundColor: commonStyles.colors.secondary,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop:-10,
+        padding: 10,
+        marginHorizontal: 100
+    },
+    buttonProx:{
+        height: 40,
+        width: 100,
+        backgroundColor: commonStyles.colors.secondary,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop:-10,
+        padding: 10,
+        marginRight: -30
+    },
+    buttonText:{
+        fontSize: 15,
+        color: '#FFF',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 })

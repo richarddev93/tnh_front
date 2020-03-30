@@ -4,22 +4,30 @@ import {
     StyleSheet,
     View,
     Dimensions,
+    ScrollView,
+    SafeAreaView
 } from 'react-native'
 
 
 import Header from '../components/components-menu/Header'
 import Content from '../components/components-menu/Content'
 import Best from '../components/components-menu/Best'
+import Footer from '../components/components-menu/Footer'
+
+let screenWidth = Dimensions.get('window').width;
+let screenHeight = Dimensions.get('window').height;
 
 export default class Home extends Component {
    
+    
     render(){
         return(
-          <View style = {styles.container} >
-            <Header/>
-            <Content/>  
-            <Best/>
-          </View> 
+            <View style = {styles.container} >
+                    <Header/>                 
+                    <Content/>  
+                    <Best/>                  
+                    <Footer/>   
+             </View>  
         )
     }
 }
@@ -27,6 +35,6 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     container:{
         backgroundColor: '#F1E9E9',
-        flex: 1
+        flex:1
     }
 })
