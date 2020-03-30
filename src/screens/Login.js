@@ -77,30 +77,36 @@ export default class Login extends Component{
             json = res.data
             status = res.status
         }catch(error){
-            console.log(error)
-
+            console.log('catch')
             setTimeout(()=>{
                 this.setState({
                     loading:false
                 })
             },100)
             
-           if  (typeof error.response.status != "undefined" && error.response.status == 404 ) {
-                showError("Tente mais tarde!")
-                console.log("erro 1")
-                return                
-           }else {
-                if (error.response.data.email) {
-                   showError(error.response.data.email)
-                    return
-                } else if (error.response.data.erro[0]) {
-                    showError(error.response.data.erro[0])
-                    return
+            console.log(error.response,'##########################')
+            if (!error.status && !error.response) {
+                showError('Verifique sua conexão ou tente mais tarde ! ')
+            }else{
+
+                if  (typeof error.response.status != "undefined" && error.response.status == 404 ) {
+                        showError("Tente mais tarde!")
+                        console.log("erro 1")              
                 }else {
-                    showError("Impossivel conectar ao servidor,Verifique a conexão")
-                    return
+                        if (error.response.data.email) {
+                        showError(error.response.data.email)
+                            
+                        } else if (error.response.data.erro[0]) {
+                            showError(error.response.data.erro[0])
+                            
+                        }else {
+                            console.log("Erro 100 login ")
+                            showError("Impossivel conectar ao servidor,Verifique a conexão")
+                            
+                        }
                 }
-           }
+            }
+            return
         }
 
         if (status == '200'){
@@ -114,7 +120,7 @@ export default class Login extends Component{
             this.setState({
                 loading:false
             })
-            Alert.alert("Falha")
+            showError('Verifique sua conexão e tente mais tarde ! ')
         }
         
     }
@@ -198,7 +204,7 @@ export default class Login extends Component{
                         </View>
                     </KeyboardAvoidingView>
                 </View>
-                <TouchableOpacity style={styles.containerButton} onPress = {this.navigateToHome}>
+                <TouchableOpacity style={styles.containerButton} onPress = {this.navigateToCadastro}>
                                     <Text style= {styles.title1}>Possui cadastro? Inscreva-se </Text>
                         </TouchableOpacity>
             </ImageBackground>    

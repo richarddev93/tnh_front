@@ -31,6 +31,10 @@
     "android": {
       "package": "com.axeapp.temnohelipa",
       "versionCode": 1
-    }
+    },
+    "androidStatusBar": {
+    "backgroundColor": "#F9AA33"
+  }
+    
   }
 }

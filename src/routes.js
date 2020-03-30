@@ -7,6 +7,8 @@ import Home from './screens/Home.js'
 import Login from './screens/Login.js'
 import Cadastro from './screens/Cadastro.js'
 import AuthOrApp from './screens/home/AuthOrApp.js';
+import Cadastro1 from './components/components-cadastro/Form1.js'
+import TermosDeUso from './TermoUso'
 
 const Stack = createStackNavigator();
 
@@ -17,7 +19,9 @@ function Routes() {
         <Stack.Screen name="AuthOrApp" component={AuthOrApp} options = {{title: null, headerShown: false}}/>
         <Stack.Screen name="Login" component={Login} options = {{title: null, headerShown: false}}/>
         <Stack.Screen name="Home" component={Home} options = {{title: null, headerShown: false}}/>
-        <Stack.Screen name="Cadastro" component={Cadastro} options = {{title: null, headerShown: false}}/>
+        <Stack.Screen name="Cadastro" component={Cadastro1} options = {{title: null, headerShown: false}}/>
+        <Stack.Screen name="TermosDeUso" component={TermosDeUso} options = {{title: null, headerShown: false}}/>
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

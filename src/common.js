@@ -5,7 +5,7 @@ let server = ''
 const teste = true //Chave para torcar de servidor
 
 if (teste) {
-    server ='http://192.168.0.100:8000/api/' 
+    server ='http://192.168.0.101:8000/api/' 
 }else{
     server ='https://tnh-webservice.herokuapp.com/api/' 
 }

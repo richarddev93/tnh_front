@@ -6,13 +6,15 @@ import {
     Plataform,
     Image,
     ImageBackground,
-    StatusBar
+    StatusBar,
+    AsyncStorage
 } from 'react-native'
 
 import fundo from '../../../assets/imgs/background/fundoDefinitivo.jpg'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
-
+import axios from 'axios'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 
 class Header extends Component{
@@ -21,6 +23,17 @@ class Header extends Component{
         super(props);
     }
 
+    logout  = async ()=>{
+            try {
+                await AsyncStorage.removeItem('dados_usuario');
+                delete axios.defaults.headers.common['Authorization'] 
+                console.log('apagando os dados')
+            }
+            catch(exception) {
+                console.log('Erouuuuuuuuu')
+            }
+
+    }
     render(){
 
 console.log('Passando Props',this.props.texto)        
@@ -29,7 +42,10 @@ console.log('Passando Props',this.props.texto)
             <ImageBackground source = {fundo} style = {styles.container}>
                 <StatusBar backgroundColor = {'#f9ba5b'} barStyle = {'light-content'} ></StatusBar>
                 <View style = {styles.rowContainer}>
-                    <Icon style = {styles.icon} name= {'bars'} size = {30} color = {'#fff'}/>
+                    <TouchableOpacity onPress={this.logout}>
+                    <Icon style = {styles.icon}   name= {'bars'} size = {30} color = {'#fff'}/>
+                    </TouchableOpacity>
+                    
                 <View style =  {styles.rowContainer2}>   
                    <View style = {styles.columnContainer}>
                     <Text style = {styles.title}> { this.props.texto }</Text>

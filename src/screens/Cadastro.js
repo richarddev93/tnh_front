@@ -11,7 +11,7 @@ import {
 
 import { createStackNavigator } from '@react-navigation/stack'
 
-import Form from '../components/components-cadastro/Form2'
+import Form from '../components/components-cadastro/Form1'
 
 import commonStyles from '../commonStyles'
 
