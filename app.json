@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Tem no Helipa",
+    "name": "Tem no Helipa!",
     "slug": "Guia-Helipa",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -24,7 +24,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "com.axeapp.temnohelipa",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.axeapp.temnohelipa",
+      "versionCode": 1
+    },
+    "androidStatusBar": {
+    "backgroundColor": "#F9AA33"
+  }
+    
   }
 }
