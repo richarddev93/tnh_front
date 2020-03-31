@@ -19,13 +19,10 @@ import Home from './Home'
 import AuthInput from '../components/components-login/AuthInput'
 import commonStyles from '../commonStyles'
     
-
 import {server,showError, showSuccess} from '../common'
-
 
 export default class Login extends Component{
    
-
     hideOrShowPassword = () =>{
         if(escondeSenha == true){
             escondeSenha = false;
@@ -49,39 +46,37 @@ export default class Login extends Component{
         this.props.navigation.navigate('Cadastro')
     }
 
-   erro =(code) =>{
-        if (code==400 ) {
+   erro = (code) =>{
+        if (code == 400 ) {
             Alert.alert("erro no email ou senha")
             return true
         }else {
             Alert.alert("Erro desconhecido")
             return true
         }
-        
-
     }
 
     signin = async () => {
+        console.log(server)
+        console.log(this.state.email)
+        console.log(this.state.password)
+        let res
         try{
-            const res = await axios.post(`${server}`,{
+            console.log("##########")
+             res = await axios.post(`${server}`,{
                 email: this.state.email,
                 password: this.state.password
             })
-            
+            console.log(res)
             console.log(res)
             axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
             if (res.status == '200'){
                 this.navigateToHome()
-                
-            }else{
-                Alert.alert("Falha")
-            }
-            
-            
-        }catch(e){
+            }if(res.status == '400'){
+                Alert.alert(res.statusText)
+            }    
+        }catch(e){ 
             console.log(e)
-            showError(e)
-            //this.props.navigation.navigate('Home')
         }
     }
     
@@ -116,7 +111,7 @@ export default class Login extends Component{
                                  
                                  />
                            
-                            <AuthInput icon='eye' editable maxLength={30} 
+                            <AuthInput icon='lock' editable maxLength={30} 
                                  autoCompleteType={"password"} 
                                  value = {this.state.senha}
                                  style = {styles.inputs}

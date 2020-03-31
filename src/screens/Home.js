@@ -23,10 +23,7 @@ export default class Home extends Component {
     render(){
         return(
             <View style = {styles.container} >
-                    <Header/>                 
-                    <Content/>  
-                    <Best/>                  
-                    <Footer/>   
+                   <Text>DFSFDSDFSGA</Text>
              </View>  
         )
     }

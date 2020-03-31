@@ -9,31 +9,31 @@ export default props => {
    
    
     return(
-        <View style = {styles.container}>   
-            <Icon name = {props.icon} size = {20} style={styles.icon} color = {'#AAA'}/>
+        <View style = {styles.container}> 
             <TextInput {...props} style = {styles.input}/>
+            <Icon name = {props.icon} size = {20} style={styles.icon} color = {'#AAA'}/>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: 320,
-        height: 50,
-        margin: 5,
+        width: 360,
+        height: 70,
+        margin: 20,
         backgroundColor: '#eee',
         borderRadius: 8,
         flexDirection: 'row',
         alignItems: 'center',
         fontSize:  17,
-    },
-    icon:{
-        color: '#AAA',
-        marginLeft: 20,
         padding: 10
     },
+    icon:{
+        color: 'tomato',
+        marginRight: 5,
+    },
     input: {
-        marginLeft: 0,
+        marginLeft: 20,
         width: '80%',
         fontSize: 15,
     }
