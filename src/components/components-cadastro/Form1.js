@@ -16,32 +16,30 @@ import Constants from 'expo-constants'
 import {Feather} from '@expo/vector-icons'
 import { useHeaderHeight } from 'react-navigation-stack'
 import { ScrollView } from 'react-native-gesture-handler';
+import ValidaForm from  '../../../src/validateForm'
 
  export default class Form extends Component{
 
    state = {
-        id : 0,
-        nome: '',
-        senha: '',
-        confirmSenha: '',
-        email: '',
-        user: '',
-        form: null,
-        valueButton :'',
-        usuario :{
-            username : '',
-	        email     :    '',
-	        password  : '',
-	        password2 : '',
-	        is_staff  : false
-        },
-        perfil :{
-            nome_completo:''
-        },
+        id           :  0,
+        form         : null,
+        valueButton  : '',
+        username     : '',
+        email        : '',
+        password     : '',
+        password2    : '',
+        is_staff     : false,
+        nome_completo : '',
+        telefone      : '',
+        cep           : '',
+        logradouro    : '',
+        num_lograd    :  0,
+        complemento   : '',
+        bairro        : '',
+        interesses    : [],
         tag:{
             totalSelected:0,
             itemsSelected:[]
-
         },
         termoUso:false,
         isloading:false,
@@ -67,27 +65,36 @@ import { ScrollView } from 'react-native-gesture-handler';
         let idForm = this.state.form + 1
         
         if (idForm > 3){
-            this.signup()
+            if(this.validateForm(this.state.form)){
+                this.signup()
+            }
+            this.validateForm(this.state.form)           
         }
         if(idForm==2){
-            this.setState({
-                form:2,
-                titleForm : 'Quase lá!',
-                subTitleForm:'Endereço',
-            })
+            console.log("1-----",this.state.form)
+            if(this.validateForm(this.state.form)){
+                this.setState({
+                    form:2,
+                    titleForm : 'Quase lá!',
+                    subTitleForm:'Endereço',
+                })
+            }
         }
         if (idForm ==3){
-            this.setState({
-                form:3,
-                titleForm : 'Último passo',
-                subTitleForm:'Permissões',
-                valueButton : 'Salvar'
-            })
+            if(this.validateForm(this.state.form)){
+                this.setState({
+                    form:3,
+                    titleForm : 'Último passo',
+                    subTitleForm:'Permissões',
+                    valueButton : 'Salvar'
+                })
+            }
         }  
     }
     previousForm =()=>{
         let idForm = this.state.form
         if (idForm == 3){
+
             this.setState({
                 form:2,
                 titleForm : 'Quase lá!',
@@ -111,25 +118,24 @@ import { ScrollView } from 'react-native-gesture-handler';
             <View style = {styles.containerForm}>
                 <TextInput style = {styles.input}
                             autoCompleteType = 'name'
-                            value = {this.state.nome}
-                            label = 'Usuário'
+                            value = {this.state.nome_completo}
                             label = 'Nome completo'
-                            placeholder = {'Ex.: Aninha94'}
+                            placeholder = {'Ex.: Tio Flavão'}
                             placeholderTextColor = {'#AAA'}
                             mode = 'outlined' 
-                            onChangeText = {nome => this.setState({nome})}
+                            onChangeText = {nome_completo => this.setState({nome_completo})}
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             keyboardType = {'default'}
                             />  
                 
                 <TextInput style = {styles.input}
                             autoCompleteType = 'off'
-                            value = {this.state.user}
+                            value = {this.state.username}
                             label = 'Usuário'
                             placeholder = {'Ex.: Aninha94'}
                             placeholderTextColor = {'#AAA'}
                             mode = 'outlined'
-                            onChangeText = {user => this.setState({user})}
+                            onChangeText = {username => this.setState({username})}
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             keyboardType = {'default'} />
 
@@ -146,35 +152,34 @@ import { ScrollView } from 'react-native-gesture-handler';
 
                 <TextInput style = {styles.input}
                             autoCompleteType = 'password'
-                            value = {this.state.senha}
+                            value = {this.state.password}
                             label = 'Senha'
                             placeholder = {'Informe a senha'}
                             placeholderTextColor = {'#AAA'}
                             mode = 'outlined'
-                            onChangeText = {senha => this.setState({senha})}
+                            onChangeText = {password => this.setState({password})}
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             keyboardType = {'default'} />
 
                 <TextInput style = {[styles.input]}
                             autoCompleteType = 'password'
-                            value = {this.state.confirmSenha}
+                            value = {this.state.password2}
                             label = 'Confirme a Senha'
                             placeholder = {'Confirme a senha'}
                             placeholderTextColor = {'#AAA'}
                             mode = 'outlined'
-                            onChangeText = {confirmSenha => this.setState({confirmSenha})}
+                            onChangeText = {password2 => this.setState({password2})}
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             keyboardType = {'default'}/>
                 <TextInput style = {styles.input}
                             autoCompleteType = 'off'
                             value = {this.state.telefone}
                             label = 'Telefone'
-                            placeholder = {'Ex.: 11 99999 9999'}
+                            placeholder = {'Ex.: 11999999999'}
                             placeholderTextColor = {'#AAA'}
                             mode = 'outlined' 
-                            onChangeText = {nome => this.setState({telefone})}
+                            onChangeText = {telefone => this.setState({telefone})}
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            keyboardType = {'default'}
                             />  
 
             
@@ -321,21 +326,106 @@ import { ScrollView } from 'react-native-gesture-handler';
         )
     }
 
+    validateForm = (form) =>{
+        let validated = false
+        //form 1
+        let username = this.state.username
+        let email = this.state.email
+        let password = this.state.password
+        let password2 = this.state.password2
+        let nome_completo = this.state.nome_completo
+        let ddd = this.state.telefone.toString().substr(0,2) 
+        let cel = this.state.telefone.toString().substr(2)
+
+        //form 2
+        let cep = this.state.cep
+        let lograd =this.state.logradouro
+        let num_lograd = this.state.num_lograd
+        let bairro = this.state.bairro
+        //form 3  
+        let interesses = this.state.interesses
+        let termoUso = this.state.termoUso
+        
+
+
+        switch (form) {
+            case 1:
+                var objER = /^[0-9]$/;
+                if ( nome_completo == '' || nome_completo.length < 3 || objER.test(nome_completo)) {
+                    console.log(nome_completo,'*******nome')
+                    Alert.alert('Atenção','Digite um Nome Válido !',[{text: 'Ok'},],{ cancelable: true })
+                    return false 
+                }
+                if (username =='' || username.length <3 ){
+                    Alert.alert('Atenção','Digite um usuário válido !',[{text: 'Ok'},],{ cancelable: true })
+                    return false 
+                }
+                if (email == '' || !ValidaForm(email,'EMAIL')) {
+                    console.log('email',email)
+                    Alert.alert('Atenção','Digite um email Válido !',[{text: 'Ok'},],{ cancelable: true })
+                    return false 
+                }
+                if (password == '' || password2 == '' || password2 != password ){
+                    Alert.alert('Atenção','senhas invalidas !',[{text: 'Ok'},],{ cancelable: true })
+                    return false
+                }                
+                if (ddd == '' ){
+                    Alert.alert('Atenção','Digite um telefone com ddd válido !',[{text: 'Ok'},],{ cancelable: true })
+                    return false
+                }                
+                if (cel == '' || cel.length <8 || cel.length>9  ){
+                    Alert.alert('Atenção','Digite um Telefone Valido !',[{text: 'Ok'},],{ cancelable: true })
+                    return false
+                }                
+                break;
+            case 2:
+                if ( cep == 0|| cep.length < 8 || !validForm(cep,'CEP')) {
+                    Alert.alert('Atenção','Digite um CEP Válido !',[{text: 'Ok'},],{ cancelable: true })
+                    return false 
+                }
+                if (lograd =='' ){
+                    Alert.alert('Atenção','Digite uma rua válida !',[{text: 'Ok'},],{ cancelable: true })
+                    return false 
+                }
+                if (num_lograd < 0 ) {
+                    Alert.alert('Atenção','Digite um número Válido !',[{text: 'Ok'},],{ cancelable: true })
+                    return false 
+                }
+                if (bairro =='' ){
+                    Alert.alert('Atenção','Digite uma quebrada válida !',[{text: 'Ok'},],{ cancelable: true })
+                    return false 
+                }        
+                break;
+            
+            case 3:
+                if (interesses.length<1){
+                    Alert.alert('Atenção','É necessário aceitar os termos de uso .',[{text: 'Ok'},],{ cancelable: true })
+                    return false
+                }
+                if ( !termoUso) {
+                    Alert.alert('Atenção','É necessário aceitar os termos de uso .',[{text: 'Ok'},],{ cancelable: true })
+                    return false   
+                }                     
+                break;
+
+            default:
+
+                return false 
+                break;
+        }     
+        
+        //chama o signup
+       return true
+
+    }
     //Função de cadastro
     signup(){
        
             Alert.alert("Em Desenvolvimento")
-            /*
-        {
-	"username" : " fulano1",
-	"email"     :    "email@email.com.br",
-	"password"  : "1234",
-	"password2" : "1234",
-	"is_staff"  : false
-        }
-            */
         
     }
+        
+    
     registerForPushNotificationsAsync = async () => {
         const { status: existingStatus } = await Permissions.getAsync(
           Permissions.NOTIFICATIONS
@@ -379,7 +469,7 @@ import { ScrollView } from 'react-native-gesture-handler';
                         <Text style = {styles.subTitle}>{this.state.subTitleForm}</Text>
                 </View>
                 
-                <KeyboardAvoidingView  keyboardVerticalOffset = {useHeaderHeight.HEIGHT + 20} behavior="padding" enabled> 
+                <KeyboardAvoidingView   behavior="padding" enabled> 
                         {this.state.form ==1 ? this.form1() 
                         :this.state.form ==2 ? this.form2()
                         :this.form3()
