@@ -2,25 +2,58 @@ import React, {Component} from 'react'
 import {View, 
         Text,
         TouchableOpacity,
-        Dimensions,
         KeyboardAvoidingView,
         Alert,
-        StatusBar
     } from 'react-native'
-import { TextInput ,RadioButton ,Divider} from 'react-native-paper';
+import { TextInput} from 'react-native-paper';
 import styles from './styles'
 import * as Permissions from 'expo-permissions';
 import { TagSelect } from 'react-native-tag-select-max';
 import { CheckBox } from 'react-native-elements'
 import Constants from 'expo-constants'
 import {Feather} from '@expo/vector-icons'
-import { useHeaderHeight } from 'react-navigation-stack'
+import Spinner from 'react-native-loading-spinner-overlay';
 import { ScrollView } from 'react-native-gesture-handler';
 import ValidaForm from  '../../../src/validateForm'
+import buscarEnd  from '../../services/api-other'
+import api from '../../services/api'
+import axios from 'axios'
+import {server,showError,teste} from '../../common'
+const servercadastro = server + 'cadastro/usuario'
+const serverPerfil= server + 'cadastro/perfil/'
+let initialState = null
+if (teste) {
+     initialState = {
+        id           :  0,
+        form         : null,
+        valueButton  : '',
+        username     : 'richafrd2022_22',
+        email        : 'emafwil122@email.com.br',
+        password     : '123456',
+        password2    : '123456',
+        is_staff     : false,
+        nome_completo : 'Richard Machado',
+        telefone      : '11981743885',
+        cep           : '04235370',
+        tpLograd :'R',
+        logradouro    : 'Rua Independencia',
+        num_lograd    :  '28',
+        complemento   : 'CAsa 02',
+        bairro        : 'Helipa',
+        localidade :'São Paulo',
+        uf:'SP',
+        interesses    : '',
+        tags:[{"id":6,"label":"Farmácias"},{"id":7,"label":"Confeitaria"},{"id":9,"label":"Farmácia"},{"id":13,"label":"Informática"},{"id":14,"label":"Restaurantes"}],
+        termoUso:false,
+        isloading:false,
+        formValid: false,
+        titleForm : 'Vamos Começar ?',
+        subTitleForm:'Dados de Acesso',
+        isloading:false
 
- export default class Form extends Component{
-
-   state = {
+    }
+} else {
+     initialState = {
         id           :  0,
         form         : null,
         valueButton  : '',
@@ -32,20 +65,28 @@ import ValidaForm from  '../../../src/validateForm'
         nome_completo : '',
         telefone      : '',
         cep           : '',
+        tpLograd :'R',
         logradouro    : '',
         num_lograd    :  0,
         complemento   : '',
         bairro        : '',
-        interesses    : [],
-        tag:{
-            totalSelected:0,
-            itemsSelected:[]
-        },
+        localidade :'São Paulo',
+        uf:'SP',
+        interesses    : '',
+        tags:[],
         termoUso:false,
         isloading:false,
         formValid: false,
         titleForm : 'Vamos Começar ?',
-        subTitleForm:'Dados de Acesso'
+        subTitleForm:'Dados de Acesso',
+        isloading:false
+    
+    }
+}
+ export default class Form extends Component{
+
+    state = {
+        ...initialState
     }
 
     navigateToHome = () => {
@@ -55,6 +96,7 @@ import ValidaForm from  '../../../src/validateForm'
         this.props.navigation.goBack()
     }
     componentDidMount(){
+        //buscarEnd('04235370')
         this.registerForPushNotificationsAsync()
         this.setState({
             form:1,
@@ -111,6 +153,55 @@ import ValidaForm from  '../../../src/validateForm'
         }else{
             this.props.navigation.goBack()
         }
+    }
+
+    retornaEnd = async (cep)=>{
+        const end = await buscarEnd(cep)
+        //console.log('retornaend',end)
+        if (end != '' ) {
+            //console.log(end.logradouro)
+            //console.log(end.bairro)
+            this.setState({
+                logradouro : end.logradouro,
+                bairro : end.bairro
+            })
+            
+        } else {
+            Alert.alert('Eroou','digite um cep valido')
+            
+        }
+
+    }
+    changeTag =(tags)=>{
+        console.log( JSON.stringify(tags),"tagsssss")
+        let interesses =''
+        console.log("Tags Id")
+        for (let i =0;i<=tags.length -1;i++){
+            console.log(tags[i].id)
+            interesses= interesses + tags[i].id +','
+        }
+        console.log("interesses",interesses)
+        this.setState({
+            tags,
+            interesses
+
+        })
+
+        let body = {
+            
+            nome_completo: this.state.nome_completo,
+            interesses:this.state.interesses ,
+            tpLograd:this.state.tpLograd ,
+            lograd: this.state.logradouro,
+            num: this.state.num_lograd,
+            compl: this.state.complemento,
+            bairro: this.state.bairro ,
+            locali: this.state.localidade,
+            cep: this.state.cep,
+            uf: this.state.uf,
+            
+        }
+        console.log(JSON.stringify(body))
     }
     //Form Acessos
     form1() {
@@ -180,6 +271,7 @@ import ValidaForm from  '../../../src/validateForm'
                             mode = 'outlined' 
                             onChangeText = {telefone => this.setState({telefone})}
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
+                            keyboardType ={'number-pad'}
                             />  
 
             
@@ -189,7 +281,7 @@ import ValidaForm from  '../../../src/validateForm'
     //Form Endereço
     form2() {
         return (
-            <ScrollView>
+            
             <View style = {styles.containerForm}>
 
             <TextInput style = {styles.input}
@@ -201,46 +293,46 @@ import ValidaForm from  '../../../src/validateForm'
                             mode = 'outlined' 
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             onChangeText = {cep => this.setState({cep})}
-                            onSubmitEditing = {this.searchCep}
-                            keyboardType = {'default'}/>  
+                            onSubmitEditing = {cep => this.retornaEnd(this.state.cep)}
+                            keyboardType = {'number-pad'}/>  
 
 
                 <TextInput style = {styles.input}
                             label = {'Logradouro'}
                             autoCompleteType = 'off'
-                            value = {this.state.tpLog}
+                            value = {this.state.logradouro}
                             placeholder = {'Ex. Rua da União'}
                             mode = 'outlined' 
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             placeholderTextColor = {'#AAA'}
-                            onChangeText = {tpLog => this.setState({tpLog})}
+                            onChangeText = {logradouro => this.setState({logradouro})}
                             keyboardType = {'email-address'} />
 
                 <TextInput style = {styles.input}
                             label = {'Número'}
                             autoCompleteType = 'cc-number'
-                            value = {this.state.num}
+                            value = {this.state.num_lograd}
                             placeholder = {'Ex. 12'}
                             mode = 'outlined' 
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             placeholderTextColor = {'#AAA'}
-                            onChangeText = {num => this.setState({num})}
+                            onChangeText = {num_lograd => this.setState({num_lograd})}
                             keyboardType = {'default'} />
                 
                 <TextInput style = {styles.input}
                             label ={'Complemento'}
                             autoCompleteType = 'off'
-                            value = {this.state.compl}
+                            value = {this.state.complemento}
                             placeholder = {'Ex. Perto do Bar'}
                             mode = 'outlined' 
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             placeholderTextColor = {'#AAA'}
-                            onChangeText = {counter => this.setState({counter})}
+                            onChangeText = {complemento => this.setState({complemento})}
                             keyboardType = {'default'}/>                 
                 
                 <TextInput style = {styles.input}
                             autoCompleteType = 'off'
-                            value = {this.state.user}
+                            value = {this.state.bairro}
                             label = 'Bairro'
                             placeholder = {'Ex.: Heliópolis'}
                             placeholderTextColor = {'#AAA'}
@@ -252,7 +344,6 @@ import ValidaForm from  '../../../src/validateForm'
 
             
         </View>
-        </ScrollView>
         )
     }
     //Form Termos
@@ -284,19 +375,17 @@ import ValidaForm from  '../../../src/validateForm'
                 <View style={styles.containerSelect}>
                     <Text style={styles.labelText}>Selecione até 4 Categorias para Promoções:</Text>
                     <TagSelect
+                        value={this.state.tags}
                         data={data}
                         max={6}
                         ref={(tag) => {
                             this.tag = tag;
                         }}
                         onMaxError={() => {
-                            Alert.alert('Ops', 'No máximo 4 categorias');
+                            Alert.alert('Ops', 'No máximo 6 categorias');
                         }}
                         containerStyle={styles.containerStyle}
                         />
-                    
-                    
-                    
                 </View>
 
 
@@ -307,7 +396,10 @@ import ValidaForm from  '../../../src/validateForm'
                     </TouchableOpacity>
                     <CheckBox
                         title='Li e aceito os termos de uso'
-                        onPress={() => this.setState({termoUso: !this.state.termoUso})}
+                        onPress={() => {
+                            this.setState({termoUso: !this.state.termoUso })
+                            this.changeTag(this.tag.itemsSelected)
+                        }}
                         checked={this.state.termoUso}
                         containerStyle={{
                             backgroundColor: 'transparent',
@@ -327,7 +419,6 @@ import ValidaForm from  '../../../src/validateForm'
     }
 
     validateForm = (form) =>{
-        let validated = false
         //form 1
         let username = this.state.username
         let email = this.state.email
@@ -343,11 +434,9 @@ import ValidaForm from  '../../../src/validateForm'
         let num_lograd = this.state.num_lograd
         let bairro = this.state.bairro
         //form 3  
-        let interesses = this.state.interesses
+        let tags = this.state.tags
         let termoUso = this.state.termoUso
         
-
-
         switch (form) {
             case 1:
                 var objER = /^[0-9]$/;
@@ -379,7 +468,7 @@ import ValidaForm from  '../../../src/validateForm'
                 }                
                 break;
             case 2:
-                if ( cep == 0|| cep.length < 8 || !validForm(cep,'CEP')) {
+                if ( cep == 0|| cep.length < 8 ) {
                     Alert.alert('Atenção','Digite um CEP Válido !',[{text: 'Ok'},],{ cancelable: true })
                     return false 
                 }
@@ -398,8 +487,9 @@ import ValidaForm from  '../../../src/validateForm'
                 break;
             
             case 3:
-                if (interesses.length<1){
-                    Alert.alert('Atenção','É necessário aceitar os termos de uso .',[{text: 'Ok'},],{ cancelable: true })
+                
+                if (tags.length<1){
+                    Alert.alert('Atenção','Escolha no mímino 4 categorias .',[{text: 'Ok'},],{ cancelable: true })
                     return false
                 }
                 if ( !termoUso) {
@@ -419,9 +509,92 @@ import ValidaForm from  '../../../src/validateForm'
 
     }
     //Função de cadastro
-    signup(){
-       
-            Alert.alert("Em Desenvolvimento")
+    signup = async () => {
+        let json,json2
+        let status
+        this.setState({
+            isloading : true
+        })
+               
+            //Alert.alert("Em Desenvolvimento")
+            //console.log("STATE",this.state)
+            try {
+                // const response = await axios.post(servercadastro,{
+                const response = await api.post('cadastro/usuario',{
+                    username  : this.state.username,
+                    email     : this.state.email,
+                    password  : this.state.password,
+                    password2 : this.state.password2,
+                    is_staff  : false  
+                    },
+                    {
+                        headers: { 
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                 
+                )
+                console.log('response',response)
+                json = JSON.stringify(response)
+                console.log("CONTAAA",json);
+                //POST PERFIL
+                // if (json.status == 201 && json.data.id){
+                if (response.status == 201 && response.data.id){
+                    console.log("Cadastrar perfil")
+
+                     const response2 = await api.post('cadastro/perfil/'+ response.data.id +'/',{
+                        
+                            nome_completo: this.state.nome_completo,
+                            interesses:this.state.interesses ,
+                            tpLograd:this.state.tpLograd ,
+                            lograd: this.state.logradouro,
+                            num: this.state.num_lograd,
+                            compl: this.state.complemento,
+                            bairro: this.state.bairro ,
+                            locali: this.state.localidade,
+                            cep: this.state.cep,
+                            uf: this.state.uf,
+                            user: response.data.id
+                          
+                        },{
+                            headers: { 
+                                Authorization: `Token ${response.data.token}`,
+                                'Content-Type': 'application/json',
+                            }
+                        }
+                    )
+                    console.log("Cadastrou perfil")
+                    json2 = JSON.stringify(response2);
+                    console.log("response 2",json2)
+                }
+                
+            } catch (error) {
+                this.setState({
+                    isloading:false,
+                });
+                
+                if (error.response.data.email ) {
+                    console.log("Erro de email",JSON.stringify(error.response.data.email[0]))
+                    showError(JSON.stringify(error.response.data.email[0]))
+                } 
+                if (error.response.data.username ) {
+                    showError(JSON.stringify(error.response.data.username[0]))
+                }
+                console.log("ERRO GERAL 1",error.response)
+                console.log("ERRO GERAL",error.response2)
+                console.log("Erro Cadastro",error.response.data)
+            
+                return
+            }
+
+
+            console.log("PERFILLLLL",json2);
+            this.setState({
+                isloading:false,
+            });
+            if (json.status == 201 && json2.status == 201) {
+               console.log("Cadastrado com Sucesso") 
+            }
         
     }
         
@@ -459,6 +632,16 @@ import ValidaForm from  '../../../src/validateForm'
                 
             
             <View style = {styles.container}>
+                <Spinner
+                    //visibility of Overlay Loading Spinner
+                    visible={this.state.isloading}
+                    //Text with the Spinner 
+                    textContent={'Carregando...'}
+                    size = {'large'}
+                    animation = {'fade'}
+                    //Text style of the Spinner Text
+                    textStyle={styles.spinnerTextStyle}
+                />
                 <View style = {styles.headerStyle}>
                     <TouchableOpacity onPress={this.previousForm}>
                         <Feather name= 'arrow-left' size = {28} color='#F9AA33'></Feather>

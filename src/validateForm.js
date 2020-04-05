@@ -11,12 +11,17 @@ function CEP(str)
     // Caso o CEP não esteja nesse formato ele é inválido!
     var objER = /^[0-9]$/;
     str = str.trim()
-    if(strCEP.length > 0)
+    console.log("str",str)
+    if(str.length > 0)
         {
-            if(objER.test(str))
+            if(objER.test(str)){
+            console.log("true")
                 return true;
-            else
+            }
+            else{
+            console.log('false')
                 return false;
+            }
         }
     else
         return false;
@@ -125,7 +130,7 @@ module.exports = function(str,tipo) {
             return EMAIL(str);
 
         case 'CEP':
-            return EMAIL(str);
+            return CEP(str);
     
         default:
             return false;
