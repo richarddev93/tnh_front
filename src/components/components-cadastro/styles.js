@@ -122,5 +122,9 @@ export default  StyleSheet.create({
         flexWrap:'wrap',
         justifyContent:'center'
       },
+      root: {
+        maxWidth: 400,
+        
+      },
 
     });
