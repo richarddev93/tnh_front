@@ -24,17 +24,6 @@ import { CheckBox } from 'react-native-elements'
 import {server,showError, showSuccess} from '../common'
 const serverLogin = server + 'cadastro/login/'
 
-
-   
-    hideOrShowPassword = () =>{
-        if(escondeSenha == true){
-            escondeSenha = false;
-        }else{
-            escondeSenha = true;
-        }
-    }
-    
-
 const initialState = {
     email: '',
     password: '',
@@ -58,39 +47,6 @@ export default class Login extends Component{
     navigateToCadastro = () => {
         this.props.navigation.navigate('Cadastro')
     }
-
-
-   erro = (code) =>{
-        if (code == 400 ) {
-            Alert.alert("erro no email ou senha")
-            return true
-        }else {
-            Alert.alert("Erro desconhecido")
-            return true
-        }
-    }
-
-    signin = async () => {
-        console.log(server)
-        console.log(this.state.email)
-        console.log(this.state.password)
-        let res
-        try{
-            console.log("##########")
-             res = await axios.post(`${server}`,{
-                email: this.state.email,
-                password: this.state.password
-            })
-            console.log(res)
-            console.log(res)
-            axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
-            if (res.status == '200'){
-                this.navigateToHome()
-            }if(res.status == '400'){
-                Alert.alert(res.statusText)
-            }    
-        }catch(e){ 
-            console.log(e)
 
     hideOrShowPassword = () =>{
      this.setState({
@@ -168,11 +124,8 @@ export default class Login extends Component{
         }
         
     }
-}
-    }
-}
     
-    render();{
+    render(){
 
         const validations =[]
         validations.push( this.state.email && this.state.email.includes('@'))
@@ -254,10 +207,14 @@ export default class Login extends Component{
                 <TouchableOpacity style={styles.containerButton} onPress = {this.navigateToCadastro}>
                                     <Text style= {styles.title1}>Possui cadastro? Inscreva-se </Text>
                         </TouchableOpacity>
+
+                <TouchableOpacity onPress = {this.navigateToHome}>
+                    <Text style = {{fontSize: 20}}>Entrar</Text>
+                </TouchableOpacity>
             </ImageBackground>    
         )
     }
- 
+} 
 
 
 const styles = StyleSheet.create({
