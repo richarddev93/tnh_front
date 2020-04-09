@@ -6,14 +6,8 @@ import {
     Dimensions,
     ScrollView,
     SafeAreaView,
-    KeyboardAvoidingView,
-    FlatList,
     TouchableOpacity
 } from 'react-native'
-
-import AuthInput from '../components/components-login/AuthInput'
-
-import Routes from '../routes'
 
 import Favoritos from '../components/components-menu/screens/Favoritos'
 
@@ -23,11 +17,7 @@ import styles from './home/styles'
 import { TextInput } from 'react-native-paper'
 
 
-navigateToCadastro = () => {
-    this.props.navigation.navigate('Cadastro')
-}
-
-export default class Home extends Component {
+class Home extends Component {
 
     render(){
         return(
@@ -150,3 +140,5 @@ export default class Home extends Component {
         )
     }
 }
+
+export default Home

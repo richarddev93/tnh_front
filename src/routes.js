@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 /* ===== ROTAS HOME ===== */
 import Home from './screens/Home.js'
-import Favoritos from './components/components-menu/screens/Favoritos'
+import Favoritos from './components/components-menu/screens/Favoritos.js'
 /* ===== /// ===== */
 
 import Login from './screens/Login.js'
@@ -31,8 +31,8 @@ function Routes() {
         <Stack.Screen name="Favoritos" component={Favoritos}/>
 
 
-        <Stack.Screen name="Cadastro" component={Cadastro1} options = {{title: null, headerShown: false}}/>
-        <Stack.Screen name="TermosDeUso" component={TermosDeUso} options = {{title: null, headerShown: false}}/>
+        <Stack.Screen name="Cadastro" component={Cadastro1}/>
+        <Stack.Screen name="TermosDeUso" component={TermosDeUso}/>
         
       </Stack.Navigator>
     </NavigationContainer>
