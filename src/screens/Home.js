@@ -18,6 +18,11 @@ import { TextInput } from 'react-native-paper'
 
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+    
+        console.log(this.props)
+    }
 
     render(){
         return(

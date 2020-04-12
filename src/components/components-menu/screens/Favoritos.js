@@ -7,7 +7,7 @@ import Feather from 'react-native-vector-icons/Feather'
 
 import styles from '../styles/stylesFav'
 
-export default class Favoritos extends Component(){
+export default class Favoritos extends Component{
     render(){
         return(
             <View style = {styles.container}>

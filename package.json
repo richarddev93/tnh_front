@@ -31,6 +31,7 @@
     "react-native-loading-spinner-overlay": "^1.1.0",
     "react-native-paper": "^3.6.0",
     "react-native-reanimated": "~1.4.0",
+    "react-native-root-toast": "^3.2.0",
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
     "react-native-tag-select-max": "^2.1.0",

@@ -14,14 +14,13 @@ import {View,
         } from 'react-native'
 
 import axios from 'axios'
-
-import fundo from '../../assets/imgs/background/fundoDefinitivo.jpg'
-import logo from '../../assets/logo.png'
-import AuthInput from '../components/components-login/AuthInput'
-import commonStyles from '../commonStyles'
+import fundo from '../../../assets/imgs/background/fundoDefinitivo.jpg'
+import logo from '../../../assets/logo.png'
+import AuthInput from '../../components/components-login/AuthInput'
+import commonStyles from '../../commonStyles'
 import Spinner from 'react-native-loading-spinner-overlay';
 import { CheckBox } from 'react-native-elements'
-import {server,showError, showSuccess} from '../common'
+import {server,showError, showSuccess} from '../../common'
 const serverLogin = server + 'cadastro/login/'
 
 const initialState = {
@@ -46,6 +45,9 @@ export default class Login extends Component{
 
     navigateToCadastro = () => {
         this.props.navigation.navigate('Cadastro')
+    }
+    navigateToRecuperarSenha = () => {
+        this.props.navigation.navigate('RecuperarSenha')
     }
 
     hideOrShowPassword = () =>{
@@ -197,7 +199,7 @@ export default class Login extends Component{
                                     onPress={this.signin} >
                                     <Text style = {styles.textoButton}> Entrar</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style ={{ marginTop:10 }} onPress = {this.navigateToCadastro}>
+                                <TouchableOpacity style ={{ marginTop:10 }} onPress = {this.navigateToRecuperarSenha}>
                                     <Text style= {styles.title1}>Esqueceu sua senha ?</Text>
                                 </TouchableOpacity>
                             </View>
@@ -299,7 +301,7 @@ const styles = StyleSheet.create({
     },
     
     title1: {
-        fontSize: 18,
+        fontSize: 15,
         alignItems: 'center',
         justifyContent: 'center',
         fontWeight: 'bold',

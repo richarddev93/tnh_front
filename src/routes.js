@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -9,11 +8,11 @@ import Home from './screens/Home.js'
 import Favoritos from './components/components-menu/screens/Favoritos.js'
 /* ===== /// ===== */
 
-import Login from './screens/Login.js'
+import Login from './screens/login/Login.js'
 
-import Cadastro from './screens/Cadastro.js'
 import AuthOrApp from './screens/home/AuthOrApp.js';
-import Cadastro1 from './components/components-cadastro/Form1.js'
+import Cadastro from './screens/cadastro/Index.js'
+import RecuperarSenha from './screens/recuperarSenha/Index'
 import TermosDeUso from './TermoUso'
 
 
@@ -31,8 +30,9 @@ function Routes() {
         <Stack.Screen name="Favoritos" component={Favoritos}/>
 
 
-        <Stack.Screen name="Cadastro" component={Cadastro1}/>
+        <Stack.Screen name="Cadastro" component={Cadastro}/>
         <Stack.Screen name="TermosDeUso" component={TermosDeUso}/>
+        <Stack.Screen name="RecuperarSenha" component={RecuperarSenha}/>
         
       </Stack.Navigator>
     </NavigationContainer>

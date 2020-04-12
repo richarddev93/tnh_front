@@ -7,7 +7,6 @@ export default  StyleSheet.create({
     /* Containers */
     container:{
        flex:1  ,      
-       paddingTop:Constants.statusBarHeight+10,
        paddingHorizontal:10,
        justifyContent: 'space-between',
     },
@@ -16,7 +15,9 @@ export default  StyleSheet.create({
         marginTop: 1,
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom:-60
+        marginTop:Constants.statusBarHeight + 10 ,
+        marginBottom : 10
+        
     },
 
     containerTitle: {
@@ -24,10 +25,11 @@ export default  StyleSheet.create({
         justifyContent: 'center'
     },
     containerForm: {
-        alignItems: 'center',
-        alignContent:'center',
-        padding: 10,
-        justifyContent:'space-between'
+      
+      alignItems: 'center',
+      alignContent:'center',
+      padding: 10,
+      // justifyContent:'center'
     
     },
     containerSelect :{
@@ -37,7 +39,7 @@ export default  StyleSheet.create({
     },
     /* Textos */
     title:{
-        fontSize: 40,
+        fontSize: 20,
         color: '#344955',
         padding: 1,
     },
@@ -69,7 +71,7 @@ export default  StyleSheet.create({
     },
      containerButton: {
         marginBottom:15,
-        alignItems : 'center'
+        alignItems : 'center',
     },
 
     button:{
