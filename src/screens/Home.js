@@ -108,37 +108,7 @@ class Home extends Component {
                   
                 </View>
 
-                    <View style = {styles.footer}>
-
-                        <View style = {styles.footerContent}>
-                            <Feather name = 'heart' size = {25} color = '#fff'/>
-                            <TouchableOpacity onPress = {() => {}}>
-                                <Text style = {styles.footerText}>Favoritos</Text>
-                            </TouchableOpacity>    
-                        </View>
-
-                        <View style = {styles.footerContent}>
-                            <Feather name = 'home' size = {25} color = '#fff'/>
-                            <TouchableOpacity>
-                                <Text style = {styles.footerText}>Home</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style = {styles.footerContent}>
-                            <Feather name = 'map-pin' size = {25} color = '#fff'/>
-                            <TouchableOpacity>
-                                <Text style = {styles.footerText}>Localização</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style = {styles.footerContent}>
-                            <Feather name = 'clock' size = {25} color = '#fff'/>
-                            <TouchableOpacity>
-                                <Text style = {styles.footerText}>Recentes</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                </View>
+                   
 
             </View>
             

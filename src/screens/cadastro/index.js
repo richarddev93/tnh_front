@@ -49,7 +49,8 @@ if (teste) {
         formValid: false,
         titleForm : 'Vamos Começar ?',
         subTitleForm:'Dados de Acesso',
-        isloading:false
+        isloading:false,
+        secureTextEntry:true
 
     }
 } else {
@@ -79,7 +80,8 @@ if (teste) {
         formValid: false,
         titleForm : 'Vamos Começar ?',
         subTitleForm:'Dados de Acesso',
-        isloading:false
+        isloading:false,
+        secureTextEntry:true
     
     }
 }
@@ -110,6 +112,12 @@ if (teste) {
         this.setState({
             form:1,
             valueButton :'Próximo'
+        })
+    }
+
+    hideOrShowPassword = () =>{
+        this.setState({
+            secureTextEntry : !this.state.secureTextEntry
         })
     }
     nextForm =()=>{
@@ -250,17 +258,27 @@ if (teste) {
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             keyboardType = {'email-address'} />
 
-                <TextInput style = {styles.input}
+                <View style ={styles.containerPass}>
+                    <TextInput style = {styles.inputPassword}
                             autoCompleteType = 'password'
                             value = {this.state.password}
                             label = 'Senha'
                             placeholder = {'Informe a senha'}
                             placeholderTextColor = {'#AAA'}
                             mode = 'outlined'
-                            secureTextEntry ={true}
+                            secureTextEntry ={this.state.secureTextEntry}
                             onChangeText = {password => this.setState({password})}
                             theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            keyboardType = {'default'} />
+                            keyboardType = {'default'}
+                             />
+
+                        <TouchableOpacity onPress={this.hideOrShowPassword} style ={styles.buttonShowPass}>
+                        <Feather name = { ( this.state.secureTextEntry) ? 'eye' : 'eye-off' }  size = {25} style={styles.icon} color = {'#F9AA33'}/>
+                        </TouchableOpacity>
+
+
+                </View>
+                
 
                 <TextInput style = {[styles.input]}
                             autoCompleteType = 'password'

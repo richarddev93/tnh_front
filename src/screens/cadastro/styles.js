@@ -69,6 +69,36 @@ export default  StyleSheet.create({
         backgroundColor: '#fff'
         
     },
+    inputPassword: {
+      width: '80%',
+      height: 50, 
+      paddingLeft: 5,
+      fontSize:  17,
+      backgroundColor: '#fff',
+      // borderLeftWidth:0
+      
+      
+    },
+    buttonShowPass :{
+      marginVertical:6,
+      width:'19%',
+      height:52,
+      borderColor :'gray',
+      borderWidth:1,
+      justifyContent:'center',
+      alignItems:'center',
+      borderTopRightRadius : 4,
+      borderBottomRightRadius : 4,
+      paddingRight : 5,
+      backgroundColor: '#344955'
+      // borderLeftWidth:0
+
+    },
+    containerPass :{
+    width:'90%',
+    flexDirection:'row'
+
+  },
      containerButton: {
         marginBottom:15,
         alignItems : 'center',

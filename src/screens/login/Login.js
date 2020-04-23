@@ -3,7 +3,6 @@ import {View,
         Text,
         ImageBackground,
         StyleSheet,
-        TextInput,
         Button,
         Alert,
         TouchableOpacity,
@@ -12,7 +11,7 @@ import {View,
         AsyncStorage,
         Image
         } from 'react-native'
-
+import { TextInput} from 'react-native-paper';
 import axios from 'axios'
 import fundo from '../../../assets/imgs/background/fundoDefinitivo.jpg'
 import logo from '../../../assets/logo.png'
@@ -20,6 +19,7 @@ import AuthInput from '../../components/components-login/AuthInput'
 import commonStyles from '../../commonStyles'
 import Spinner from 'react-native-loading-spinner-overlay';
 import { CheckBox } from 'react-native-elements'
+import {Feather} from '@expo/vector-icons'
 import {server,showError, showSuccess} from '../../common'
 const serverLogin = server + 'cadastro/login/'
 
@@ -158,61 +158,60 @@ export default class Login extends Component{
                                                 
                         <View style ={styles.conteudo}>
                             {/* <Text style={styles.subTitle}> Login</Text> */}
-                            <AuthInput 
-                                icon = 'user'
+                            <TextInput style = {styles.input2}
+                                autoCompleteType = 'email'
                                 value = {this.state.email}
-                                style = {styles.inputs}
-                                placeholder = {'Usuário'}
-                                fontSize ={17}
+                                label = 'E-mail'
+                                placeholder = {'Ex.: Aninha94@email.com'}
                                 placeholderTextColor = {'#AAA'}
-                                onChangeText = {email => this.setState({email})} 
-                                keyboardType = 'email-address'
-                                />
+                                mode = 'outlined'
+                                onChangeText = {email => this.setState({email})}
+                                theme={{colors: {primary: '#344955', underlineColor: 'transparent'}}}
+                                keyboardType = {'email-address'} />
                            
-                            <AuthInput icon='lock' editable maxLength={30} 
-                                autoCompleteType={"password"} 
-                                value = {this.state.senha}
-                                style = {styles.inputs}
-                                placeholder = {'Senha'}
-                                fontSize ={17}
-                                placeholderTextColor = {'#AAA'}
-                                secureTextEntry = {this.state.escondeSenha}
-                                onChangeText = {password => this.setState({password})}
-                                keyboardType = {'default'}
-                                secureTextEntry ={this.state.secureTextEntry}
-                                showIconEyepassword ={true}
-                                handleVisibility = {this.hideOrShowPassword}/>
+                           <View style ={styles.containerPass}>
+                                <TextInput style = {styles.inputPassword}
+                                        autoCompleteType = 'password'
+                                        value = {this.state.password}
+                                        label = 'Senha'
+                                        placeholder = {'Informe a senha'}
+                                        placeholderTextColor = {'#AAA'}
+                                        mode = 'outlined'
+                                        secureTextEntry ={this.state.secureTextEntry}
+                                        onChangeText = {password => this.setState({password})}
+                                        theme={{colors: {primary: '#344955', underlineColor: 'transparent'}}}
+                                        keyboardType = {'default'}
+                                        />
+
+                                <TouchableOpacity onPress={this.hideOrShowPassword} style ={styles.buttonShowPass}>
+                                    <Feather name = { ( this.state.secureTextEntry) ? 'eye' : 'eye-off' }  size = {25} style={styles.icon} color = {'#fff'}/>
+                                </TouchableOpacity>
+                            </View>
                             <CheckBox
                                 title="Manter conectado"
                                 checked={this.state.loginauto}
                                 checkedColor={global.corPrincipal}
                                 onPress={() => this.setState({ loginauto: !this.state.loginauto })}
                                 containerStyle={{backgroundColor : 'transparent',borderColor :'transparent',marginVertical:-5}}
-                                size ={20}
-                             />               
+                                size ={20}/>               
                           
-                            <View style={styles.containerButton}>  
-                                          
+                            <View style={styles.containerButton}>              
                                 <TouchableOpacity
                                     disabled={!validForm} //só habilito o botão para o susário se tiver email com @ e senha preeenchida
                                     style={validForm ?  styles.button : styles.buttonDisable }
                                     onPress={this.signin} >
                                     <Text style = {styles.textoButton}> Entrar</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style ={{ marginTop:10 }} onPress = {this.navigateToRecuperarSenha}>
+                                <TouchableOpacity style ={{ marginTop:8 }} onPress = {this.navigateToRecuperarSenha}>
                                     <Text style= {styles.title1}>Esqueceu sua senha ?</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
                     </KeyboardAvoidingView>
                 </View>
-                <TouchableOpacity style={styles.containerButton} onPress = {this.navigateToCadastro}>
+                         <TouchableOpacity style={styles.containerButton} onPress = {this.navigateToCadastro}>
                                     <Text style= {styles.title1}>Possui cadastro? Inscreva-se </Text>
                         </TouchableOpacity>
-
-                <TouchableOpacity onPress = {this.navigateToHome}>
-                    <Text style = {{fontSize: 20}}>Entrar</Text>
-                </TouchableOpacity>
             </ImageBackground>    
         )
     }
@@ -263,7 +262,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 8,
+        borderRadius: 5,
         marginBottom: 5,
 
     },
@@ -326,5 +325,44 @@ const styles = StyleSheet.create({
     spinnerTextStyle: {
         color: '#FFF',
       },
+      input2: {
+        width: '90%',
+        height: 50, 
+        marginHorizontal: 10,
+        padding: 5,
+        fontSize:  17,
+        backgroundColor: '#fff'
+        
+    },
+    inputPassword: {
+        width: '85%',
+        height: 50, 
+        paddingLeft: 5,
+        fontSize:  17,
+        backgroundColor: '#fff',
+        // borderLeftWidth:0
+        
+        
+      },
+      buttonShowPass :{
+        marginVertical:6,
+        width:'14%',
+        height:52,
+        borderColor :'#344955',
+        borderWidth:1,
+        justifyContent:'center',
+        alignItems:'center',
+        borderTopRightRadius : 4,
+        borderBottomRightRadius : 4,
+        paddingRight : 5,
+        backgroundColor: '#344955'
+        // borderLeftWidth:0
+  
+      },
+      containerPass :{
+      width:'90%',
+      flexDirection:'row'
+  
+    },
 
     })
