@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './screens/login/Login.js'
 
 import AuthOrApp from './screens/home/AuthOrApp.js';
-import Cadastro from './screens/cadastro/Index.js'
+import Cadastro from './screens/cadastro/index.js'
 import RecuperarSenha from './screens/recuperarSenha/Index'
 import TermosDeUso from './TermoUso'
 import TabRoutes from './RoutesHome.js';
