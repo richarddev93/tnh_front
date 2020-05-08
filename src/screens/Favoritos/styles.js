@@ -32,59 +32,7 @@ export default StyleSheet.create({
         flexDirection:'row',
         justifyContent : 'space-between'
     },
-    containerItem :{
-        flexDirection:'row',
-        borderRadius : 3,
-        borderWidth :1,
-        borderWidth : 0.5,
-        borderColor :'gray',
-        padding :3,
-        marginBottom :3,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-
-        elevation: 7,
-
-
-
-        
-    },
-    containerDetail:{
-        justifyContent:'center',
-        padding : 2,
-        flex:1
-
-    },
-
-    image :{
-        width:80,
-        height :80,
-        padding:5,
-        marginRight : 3
-    },
-    containerServiceInfo :{
-        flexDirection : 'row',
-        flex:2
-
-    },
-    infoText :{
-        flex:3,
-        flexDirection :'column',
-        alignContent : 'center',
-    },
-    containerServiceInfo3 :{
-        flex:1,
-        flexDirection :'column',
-        alignContent:'center',
-        alignItems : 'center',
-        justifyContent : 'center',
-    }
-    
-
-
+   list :{
+    marginTop : 15,
+   } 
 })

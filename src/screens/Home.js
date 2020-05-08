@@ -6,7 +6,8 @@ import {
     Dimensions,
     ScrollView,
     SafeAreaView,
-    TouchableOpacity
+    TouchableOpacity,
+    AsyncStorage
 } from 'react-native'
 
 import Favoritos from '../components/components-menu/screens/Favoritos'
@@ -24,12 +25,16 @@ class Home extends Component {
         console.log(this.props)
     }
 
+    sair = ()=>{
+        AsyncStorage.clear();
+    }
+
     render(){
         return(
             <View style = {styles.container}>
                 
                 <View style = {styles.containerHeader}>
-                    <Feather name = 'filter' size = {40} color = '#000'/>
+                    <Feather name = 'filter' size = {40} color = '#000' onPress ={this.sair}/>
                     <View style = {styles.containerText}>
                         <Text style = {styles.textHeader}> Nome do usuário <Feather name = 'user' size = {40} color = '#000'/></Text>
                     </View>

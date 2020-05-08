@@ -11,7 +11,7 @@ export default StyleSheet.create({
         justifyContent: 'center'
     },
     title:{
-        fontSize: 20,
+        fontSize: 18,
         color: '#000',
         padding: 1,
         fontWeight : 'bold'
@@ -26,10 +26,9 @@ export default StyleSheet.create({
         fontSize: 16,
         color: '#000',
         padding: 1,
-        fontWeight : 'bold'
 
     },
-    titleinfovalue :{
+    titleinfov :{
         fontSize:8,
         color: '#344955',
     },
@@ -43,7 +42,7 @@ export default StyleSheet.create({
         borderColor :'gray',
         backgroundColor:'#FFF',
         padding :3,
-        marginBottom :3,
+        marginBottom :10,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -51,12 +50,13 @@ export default StyleSheet.create({
         },
         shadowOpacity: 0.29,
         shadowRadius: 4.65,
-        elevation: 7,       
+        elevation: 3,       
     },
     containerDetail:{
         justifyContent:'center',
         padding : 2,
-        flex:1
+        flex:1,
+        marginLeft : 3,
     },
     image :{
         width:80,
@@ -66,7 +66,8 @@ export default StyleSheet.create({
     },
     containerServiceInfo :{
         flexDirection : 'row',
-        flex:2
+        flex:2,
+        paddingLeft : 2
 
     },
     infoText :{
@@ -80,6 +81,10 @@ export default StyleSheet.create({
         alignContent:'center',
         alignItems : 'center',
         justifyContent : 'center',
-    } 
+    },
+    rating:{
+        alignContent:'flex-start',
+        alignItems :'flex-start'
+    }
 
 })

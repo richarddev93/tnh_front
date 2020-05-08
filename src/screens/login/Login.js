@@ -79,14 +79,14 @@ export default class Login extends Component{
             json = res.data
             status = res.status
         }catch(error){
-            console.log('catch')
+            console.log('catch',error)
             setTimeout(()=>{
                 this.setState({
                     loading:false
                 })
             },100)
             
-            console.log(error.response,'##########################')
+            //console.log(error.response,'##########################')
             if (!error.status && !error.response) {
                 showError('Verifique sua conexão ou tente mais tarde ! ')
             }else{
