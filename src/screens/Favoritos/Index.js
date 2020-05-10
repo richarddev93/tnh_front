@@ -38,42 +38,19 @@ export default Index = () => {
         }
       }
 
-    async function  loadFavoritos (){
-
-        const dados_user =  await _retrieveData()
-        let favoritos = null
-
-        try {
-            const response = await api.get('servico/favoritos/?user='+dados_user.id+'&is_active=true',{
-                headers: { 
-                    Authorization: `Token ${dados_user.token}`,
-                    'Content-Type': 'application/json',
-                }
-            }
-           )
-           console.log("Responseee 54",response.data)
-           favoritos = response.data
-           return favoritos
-        } catch (error) {
-            console.log("Erro nos favoritos 54",error)
-        }
-
-    }
     async function loadServices(){
 
         const dados_user =  await _retrieveData()
         console.log(dados_user,"dados user")
         try {
-            const response = await api.get('servico/servicosfavoritos/1/',{
-            // const response = await api.get('servico/servicosfavoritos/'+dados_user.id+'/',{
+            const response = await api.get('servico/servicosfavoritos/'+dados_user.id+'/',{
                 headers: { 
-                    Authorization: `Token ${'bf6de4c43c98a7b5bf35c302120c02ff81be1963'}`,
+                    Authorization: `Token ${dados_user.token}`,
                     'Content-Type': 'application/json',
                 }
             })
-            console.log(response.data)
+            // console.log(response.data)
            setServices( response.data )
-
         } catch (error) {
             console.log("74 - Favoritos",error)
         }
@@ -84,20 +61,7 @@ export default Index = () => {
     }
 
     useEffect(() => {
-       api.get('servico/servicosfavoritos/1/',{
-            // const response = await api.get('servico/servicosfavoritos/'+dados_user.id+'/',{
-                headers: { 
-                    Authorization: `Token ${'bf6de4c43c98a7b5bf35c302120c02ff81be1963'}`,
-                    'Content-Type': 'application/json',
-                }
-            }).then(res => {
-                setServices(res.data);
-              })
-              .catch(err => {
-                console.log(err);
-              })
-
-        // loadServices()
+        loadServices()
     }, [])
     
     return (
@@ -120,7 +84,7 @@ export default Index = () => {
                 keyExtractor={service => String(service.id)}
                 showsVerticalScrollIndicator = {false}
                 renderItem ={ ({item:service}) =>(
-                    <Item service = {service} handleClick = {() => removeFavorite(service.id)}/>
+                    <Item service = {service} handleClick = {() => navigateToDetailService()}/>
                 )}
             />
         </View>

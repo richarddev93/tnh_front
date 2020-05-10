@@ -18,4 +18,9 @@ function showSuccess(msg) {
     Alert.alert('Sucesso', msg)
 }
 
+// function useFetch  (url) {
+// const data
+//     return {data}
+// }
+
 export {server,showError, showSuccess,teste}

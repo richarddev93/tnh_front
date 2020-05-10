@@ -9,6 +9,7 @@ import Cadastro from './screens/cadastro/Index.js'
 import RecuperarSenha from './screens/recuperarSenha/Index'
 import TermosDeUso from './TermoUso'
 import TabRoutes from './RoutesHome.js';
+import Detail from './screens/servicos-detail/index';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ function Routes() {
         <Stack.Screen name="RecuperarSenha" component={RecuperarSenha}/>
 
         <Stack.Screen name = "Home" component ={TabRoutes}/>
+        <Stack.Screen name = "Detail" component ={Detail}/>
         
       </Stack.Navigator>
       
