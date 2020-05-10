@@ -6,7 +6,7 @@ import { ScrollView, FlatList } from 'react-native-gesture-handler'
 import {useNavigation} from '@react-navigation/native'
 import Item from '../../components/item-servicos/index'
 import api from '../../services/api'
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 
@@ -15,7 +15,7 @@ export default Index = () => {
 
     const navigation = useNavigation()
     const [ services,setServices ] = useState([])
-    const {loading,setLoading} = useState(false)
+    const {loading,setLoading} = useState(true)
     const [userid,setUserId] = useState(0)
 
 
@@ -51,10 +51,11 @@ export default Index = () => {
             })
             // console.log(response.data)
            setServices( response.data )
+          
         } catch (error) {
             console.log("74 - Favoritos",error)
         }
-
+        setLoading( false)
     }
     async function removeFavorite(nomefantasia){
         Alert.alert(String(userid),String(nomefantasia))
@@ -66,6 +67,16 @@ export default Index = () => {
     
     return (
         <View style = {styles.container}>
+                <Spinner
+                    //visibility of Overlay Loading Spinner
+                    visible={loading}
+                    //Text with the Spinner 
+                    textContent={'Carregando...'}
+                    size = {'large'}
+                    animation = {'fade'}
+                    //Text style of the Spinner Text
+                    textStyle={styles.spinnerTextStyle}
+                />
             <View style = {styles.headerStyle}>                    
                 <View >
                     <TouchableOpacity onPress={()=>Alert.alert("Voltando")}>
