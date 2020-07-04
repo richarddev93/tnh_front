@@ -24,14 +24,13 @@ export default class AuthOrApp extends Component {
         //AsyncStorage.removeItem('dados_usuario')
         const userDataJson = await AsyncStorage.getItem('dados_usuario')
         let userData = null
-        console.log(userDataJson,'algo')
+        console.log('Iniciando ...')
         try {
             userData = JSON.parse(userDataJson)
         } catch (e) {
             showError(e.message)
             //está inválido
         }
-console.log("AuthOrapp")
         if (userData && userData.token) {
             console.log("1")
             console.log(userData)
@@ -39,10 +38,10 @@ console.log("AuthOrapp")
 
             axios.defaults.headers.common['Authorization'] = `bearer ${userData.token}`
             this.navigateToHome(userData)
-            console.log("AuthorApp -aqui 01")
+            //console.log("AuthorApp -aqui 01")
         }else{
             this.navigateToLogin()
-            console.log("AuthorApp -aqui 02")
+            //console.log("AuthorApp -aqui 02")
         }
     }
 

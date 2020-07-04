@@ -5,18 +5,33 @@ let ScreenHeight = Dimensions.get('window').height
 import Constants from 'expo-constants';
 
 export default StyleSheet.create({
-    container :{
-        marginTop :10,
-        marginHorizontal :2,
+
+    container:{      
+        flex:1,
+    },
+    detailContainer :{
+        flex:1,
+        marginVertical :10,
+        marginHorizontal :5,
         padding:10,
-        justifyContent:'center',
-        borderColor : 'black',
-        borderWidth : 2,
+        backgroundColor :'white',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 3,  
+        justifyContent:'center'     
         
     },
     headerStyle: {
         flexDirection:'row',
-        marginTop: 1,
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop:Constants.statusBarHeight + 10 ,
@@ -25,7 +40,8 @@ export default StyleSheet.create({
     },
     containerTitle: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        
     },
         /* Textos */
     title:{
@@ -41,33 +57,55 @@ export default StyleSheet.create({
         borderWidth : 1,
         justifyContent :'center'
     },
-    containerDetail :{
-        marginVertical:5,
-        padding :10,      
-        borderColor :'blue',
-        borderWidth : 1,
-        justifyContent :'center'
-
+    detailTitleContainer :{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        marginVertical:2,
+        padding :2,
     },
-    containerContact :{
+    descServiceContainer :{
+        flex:1,
         marginVertical:5,
-        padding :10,
-        borderColor :'green',
-        borderWidth : 1,
+        padding :4,
+        alignItems:'center'
+    },
+    contactContainer :{
+        marginVertical:5,
+        padding :5,
         justifyContent :'center'
 
     },
     containerMap :{
-        padding :10,
-        marginVertical:5,
-        borderColor :'yellow',
-        borderWidth : 1,
+        padding :5,
         justifyContent :'center'
 
     },
     map :{
+        marginTop:5,
         width:ScreenWidth - 50,
-        height: 300,
+        height: 150,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 3,   
+    },
+    slideContainer :{       
+
+    },
+    rating:{
+        justifyContent:'center',
+    },
+    titleContact:{
+        fontSize:16,
+        fontWeight:'bold'
+
+    },
+    textContact:{
+        fontSize:15,
     }
 
 })

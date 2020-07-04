@@ -15,19 +15,19 @@ export default Index = () => {
 
     const navigation = useNavigation()
     const [ services,setServices ] = useState([])
-    const {loading,setLoading} = useState(true)
+    const [loading,setLoading] = useState(true)
     const [userid,setUserId] = useState(0)
 
 
-    function navigateToDetailService () {
-        navigation.navigate('Detail')
+    function navigateToDetailService (service) {
+        navigation.navigate('Detail',{service});
     }
    const  _retrieveData = async () => {
        let dados_user = null
         try {
           let value = await AsyncStorage.getItem('dados_usuario');
           if (value !== null) {
-              console.log('value',value)
+              //console.log('value',value)
             dados_user = JSON.parse(value)
             setUserId(dados_user.id)
           }
@@ -41,7 +41,8 @@ export default Index = () => {
     async function loadServices(){
 
         const dados_user =  await _retrieveData()
-        console.log(dados_user,"dados user")
+        //console.log(dados_user,"dados user")
+        setLoading(true);
         try {
             const response = await api.get('servico/servicosfavoritos/'+dados_user.id+'/',{
                 headers: { 
@@ -49,13 +50,13 @@ export default Index = () => {
                     'Content-Type': 'application/json',
                 }
             })
-            // console.log(response.data)
+           console.log(response.data)
            setServices( response.data )
           
         } catch (error) {
             console.log("74 - Favoritos",error)
         }
-        setLoading( false)
+        setLoading(false);
     }
     async function removeFavorite(nomefantasia){
         Alert.alert(String(userid),String(nomefantasia))
@@ -89,15 +90,24 @@ export default Index = () => {
                     <MaterialCommunityIcons name = {'filter'}  size = {28} style={styles.icon} color = {'#344955'}/>
                 </View>
             </View>
-            <FlatList
-                data ={services}
-                style = {styles.list}
-                keyExtractor={service => String(service.id)}
-                showsVerticalScrollIndicator = {false}
-                renderItem ={ ({item:service}) =>(
-                    <Item service = {service} handleClick = {() => navigateToDetailService()}/>
-                )}
-            />
+            {services.length != 0 
+                ?
+                <FlatList
+                    data ={services}
+                    style = {styles.list}
+                    keyExtractor={service => String(service.id)}
+                    showsVerticalScrollIndicator = {false}
+                    renderItem ={ ({item:service}) =>(
+                        <TouchableOpacity onPress ={() => navigateToDetailService()}>
+                        <Item service = {service} handleClick = {() => navigateToDetailService()}/>
+                        </TouchableOpacity>
+                    )}
+                />
+                :
+                <View style={styles.nocontent}>
+                    <Text>Adicione um serviço a sua lista de favoritos</Text>
+                </View>    
+                    }
         </View>
     )
 }

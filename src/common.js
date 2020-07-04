@@ -4,6 +4,17 @@ import {Alert} from 'react-native'
 let server = ''
 const teste = true //Chave para torcar de servidor
 
+const colorsStyle = {
+    primaryColor : "#f9aa33",
+    primaryLightColor : "#ffdc65",
+    primaryDarkColor : "#c17b00",
+    secondaryColor : "#0f6aad",
+    secondaryLightColor : "#5798df",
+    secondaryDarkColor : "#00407d",
+    primaryTextColor : "#000000",
+    secondaryTextColor : "#ffffff"
+}
+
 if (teste) {
     server ='http://10.0.1.114:8000/api/' 
 }else{
@@ -23,4 +34,4 @@ function showSuccess(msg) {
 //     return {data}
 // }
 
-export {server,showError, showSuccess,teste}
+export {server,showError, showSuccess,teste,colorsStyle}
