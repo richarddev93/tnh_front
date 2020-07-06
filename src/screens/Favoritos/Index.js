@@ -20,7 +20,7 @@ export default Index = () => {
 
 
     function navigateToDetailService (service) {
-        navigation.navigate('Detail',{service});
+        navigation.navigate('Detail',{ service });
     }
    const  _retrieveData = async () => {
        let dados_user = null
@@ -50,7 +50,7 @@ export default Index = () => {
                     'Content-Type': 'application/json',
                 }
             })
-           console.log(response.data)
+          // console.log(response.data)
            setServices( response.data )
           
         } catch (error) {
@@ -98,8 +98,8 @@ export default Index = () => {
                     keyExtractor={service => String(service.id)}
                     showsVerticalScrollIndicator = {false}
                     renderItem ={ ({item:service}) =>(
-                        <TouchableOpacity onPress ={() => navigateToDetailService()}>
-                        <Item service = {service} handleClick = {() => navigateToDetailService()}/>
+                        <TouchableOpacity onPress ={() => navigateToDetailService( service )}>
+                            <Item service = {service} handleClick = {() => Alert.alert("Em Desenvolvimento")}/>
                         </TouchableOpacity>
                     )}
                 />

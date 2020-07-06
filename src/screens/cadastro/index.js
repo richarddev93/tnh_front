@@ -92,8 +92,10 @@ if (teste) {
     }
 
     navigateToLogin = async () => {
-        const { navigation,route } = this.props;
-    route.refresh(this.state.email)    
+    const { navigation,route } = this.props;
+    //     console.log("Route",this.props);
+    //     console.log(this.state.email);
+    // route.refresh(this.state.email)    
     navigation.goBack();
     //.onSelect({ selected: true });
         console.log("emailllllllllllll",navigation)

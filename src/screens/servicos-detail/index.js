@@ -1,25 +1,88 @@
-import React ,{useState}from 'react'
-import { View, Text, TouchableOpacity, Slider } from 'react-native'
+import React ,{useState,useEffect}from 'react'
+import { View, Text, TouchableOpacity, Slider, Linking,AsyncStorage } from 'react-native'
 import {Feather} from '@expo/vector-icons'
-import {useNavigation} from '@react-navigation/native'
+import {useNavigation, useRoute } from '@react-navigation/native'
 import MapView from 'react-native-maps'
 import styles  from './style';
 import { colorsStyle } from '../../common'
 import Slideshow from 'react-native-image-slider-show';
 import { Rating, AirbnbRating } from 'react-native-ratings';
-import style from './style'
+import buscarEnd  from '../../services/api-other'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native-gesture-handler'
-
-
+import * as MailComposer from 'expo-mail-composer';
 
 
 const index = () => {
 
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+    const route = useRoute();
 
+    const service = route.params.service;
+    //console.log("Serviços",service);
     const [serviceTitle,setServiceTitle] = useState('Serviço');
+    const [username,setUsername] = useState('')
+
+    const cep = service.endereco.cep
+    
+    const retornaEnd = async (cep)=>{
+        const end = await buscarEnd(cep)
+        console.log("End:v",end);
+        if (end != '' ) {
+          return end;          
+        } else {
+            return   '';         
+        }
+    }
+
+    const  _retrieveData = async () => {
+        let dados_user = ""
+         try {
+           let value = await AsyncStorage.getItem('dados_usuario');
+           if (value !== null) {
+               //console.log('value',value)
+             dados_user = JSON.parse(value)
+             setUsername(dados_user.perfil.nome_completo)
+           }
+         return dados_user
+         } catch (error) {
+           console.log("37 -Detail-AsyncStorage",error)
+         }
+       };
+     //  
+
+     useEffect(() => {
+         console.log('Puxando os dados');
+         console.log('CEP',retornaEnd(cep));
+        _retrieveData();   
+     }, [])
    
+    const imagens = service.imagem_servicos; 
+    const urls = extractUrlImage(imagens);
+    const message =`Olá ${service.nomefantasia}, me chamo ${username}. Te encontrei pelo Tem no Helipa.` 
+    function extractUrlImage(imagens) {
+        let url =[]
+        imagens.map( (image)=>{
+            url.push({url:image.imagem})
+        });
+        //url.map((i) => console.log(i));
+
+        return url
+    }
+
+    function sendEmail () {
+        MailComposer.composeAsync({
+            subject:`TNH: Dúvidas`,
+            recipients: [service.email.trim()],
+            body:message,
+        })
+
+    }
+
+    function sendWhats () {
+        Linking.openURL(`whatsapp://send?text=${message}&phone=${5511957242030}`);
+    }
+
     function navigationToBack (){
         navigation.goBack()        
     }
@@ -41,11 +104,12 @@ const index = () => {
                 <View style ={{width:28}}/>
             </View>
             <Slideshow 
-                        dataSource={[
-                            { url:'http://placeimg.com/640/480/any' },
-                            { url:'http://placeimg.com/640/480/any' },
-                            { url:'http://placeimg.com/640/480/any' }
-                        ]}
+                        // dataSource={[
+                        //     { url:'http://placeimg.com/640/480/any' },
+                        //     { url:'http://placeimg.com/640/480/any' },
+                        //     { url:'http://placeimg.com/640/480/any' }
+                        // ]}
+                        dataSource ={urls}
                         height = {180}
                         containerStyle ={styles.slideContainer} 
                         overlay = {false}
@@ -55,27 +119,41 @@ const index = () => {
               <View style ={styles.detailContainer}>
                   <ScrollView>
                     {/* Title Service */}
-                    <View style={styles.detailTitleContainer}>
-                        <Text style={styles.title}>Serviço do Seu Xé</Text>
-                        <Rating  type = {'star'}  style={styles.rating} imageSize = {15} />                      
-                    </View>
+                    <>
+                        <View style={styles.detailTitleContainer}>
+                            <Text style={styles.title}>{service.nomefantasia}</Text>
+                            <Rating  type = {'star'}  style={styles.rating} imageSize = {15} />                      
+                        </View>
+                        <Text>{service.categoria[0]}</Text>
+                        { service.site != "" ? <Text>{service.site}</Text> : null }
+                    </>
                     {/* description service */}
                     <View style={styles.descServiceContainer}>
-                        <Text style={{alignSelf:'center'}}>Mussum Ipsum, cacilds vidis litro abertis. Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo! Quem manda na minha terra sou euzis! Per aumento de cachacis, eu reclamis. Leite de capivaris, leite de mula manquis sem cabeça.
-                                            Mussum Ipsum, cacilds vidis litro abertis. Quem num gosta di mé, boa gentis num é. Atirei o pau no gatis, per gatis num morreus. Quem num gosta di mim que vai caçá sua turmis! Aenean aliquam molestie leo, vitae iaculis nisl.
-                        </Text>
+                        <Text style={{alignSelf:'center'}}>{service.desc}</Text>
+                    </View>
+                        {/*schedule service */}
+                    <View style = {styles.contactContainer}>
+                        <Text style = {styles.titleContact}>Horário</Text>
+                        {service.servico_horario.map( (horario) =>{
+                            return ( <Text style = {styles.textContact}>  - {horario}</Text>)
+                        })}
+                       
                     </View>
                         {/* contact service */}
                     <View style = {styles.contactContainer}>
                         <Text style = {styles.titleContact}>Contato</Text>
-                        <Text style = {styles.textContact}>  - Email: richardmachado.93@outlook.com</Text>
-                        <Text style = {styles.textContact}>  -Telefone:  98174-3885 <Icon name = {'whatsapp'} size = {20} style={styles.icon} color = {'green'}/></Text>                      
+                        <TouchableOpacity style={styles.containerButton} onPress = { () => sendEmail()}>
+                            <Text style = {styles.textContact}>  - Email: {service.email}</Text>
+                        </TouchableOpacity>    
+                        <TouchableOpacity style={styles.containerButton} onPress = {() => sendWhats()}>
+                            <Text style = {styles.textContact}>  -Telefone: {service.servico_telefone[0]} <Icon name = {'whatsapp'} size = {20} style={styles.icon} color = {'green'}/></Text>                      
+                        </TouchableOpacity>
                     </View>
                         {/* address service */}
                     <View style = {styles.adressContainer}>
                         <Text style = {styles.titleContact}>Endereço</Text>
-                        <Text style = {styles.textContact}><Icon name = {'home'} size = {20} style={styles.icon} color = {'orange'}/>  Rua Indepedência de Heliópolis,28</Text>
-                        <Text style = {styles.textContact}>       Casa 02, proximo ao bar central</Text>                      
+                    <Text style = {styles.textContact}><Icon name = {'home'} size = {20} style={styles.icon} color = {'orange'}/>  {service.endereco.lograd +", "+ service.endereco.num}</Text>
+                    <Text style = {styles.textContact}>       {service.endereco.compl}</Text>                      
                     </View>
                     
 

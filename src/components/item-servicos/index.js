@@ -9,7 +9,7 @@ export default index = ({service,handleClick}) =>{
     const horario = null
     const tel = null
     const categoria = null
-    console.log("Dentro do item",service.imagem_servicos[0].imagem)
+    //console.log("Dentro do item",service.imagem_servicos[0].imagem)
     return (
         <View style={styles.containerItem}>
             <Image style={styles.image}  source={service.imagem_servicos[0].imagem ? {uri : service.imagem_servicos[0].imagem} : {uri: 'https://img.icons8.com/metro/52/000000/shop.png',}}/>
