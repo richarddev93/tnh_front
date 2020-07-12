@@ -38,10 +38,11 @@ export default StyleSheet.create({
     },
     containerItem :{
         flexDirection:'row',
+        alignItems:'center',
         borderRadius : 3,
         borderColor :'gray',
         backgroundColor:'#FFF',
-        padding :3,
+        paddingHorizontal :9,
         marginBottom :10,
         shadowColor: "#000",
         shadowOffset: {
@@ -62,7 +63,8 @@ export default StyleSheet.create({
         width:80,
         height :80,
         padding:5,
-        marginRight : 3
+        marginRight : 3,
+        borderRadius : 3,
     },
     containerServiceInfo :{
         flexDirection : 'row',

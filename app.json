@@ -30,7 +30,18 @@
     },
     "android": {
       "package": "com.axeapp.temnohelipa",
-      "versionCode": 1
+      "versionCode": 1,
+      
+      "permissions": [
+        "RECORD_AUDIO",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "READ_PHONE_STATE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+
     },
     "androidStatusBar": {
     "backgroundColor": "#F9AA33"

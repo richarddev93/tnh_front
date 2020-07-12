@@ -47,7 +47,6 @@ export default StyleSheet.create({
     title:{
         fontSize: 20,
         color: '#344955',
-        padding: 1,
         fontWeight : 'bold'
     },
     containerSlider :{
@@ -61,13 +60,10 @@ export default StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         marginVertical:2,
-        padding :2,
     },
     descServiceContainer :{
         flex:1,
         marginVertical:5,
-        padding :4,
-        alignItems:'center'
     },
     contactContainer :{
         marginVertical:5,
@@ -77,13 +73,14 @@ export default StyleSheet.create({
     },
     containerMap :{
         padding :5,
-        justifyContent :'center'
+        justifyContent :'center',
+        alignItems:'center'
 
     },
     map :{
         marginTop:5,
         width:ScreenWidth - 50,
-        height: 150,
+        height: 200,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -106,6 +103,14 @@ export default StyleSheet.create({
     },
     textContact:{
         fontSize:15,
+    },
+    subHeader :{
+
+    },
+    siteUrl :{
+        color:'blue'
+
     }
+
 
 })

@@ -2,12 +2,13 @@ import React ,{useState,useEffect}from 'react'
 import { View, Text, TouchableOpacity, Slider, Linking,AsyncStorage } from 'react-native'
 import {Feather} from '@expo/vector-icons'
 import {useNavigation, useRoute } from '@react-navigation/native'
-import MapView from 'react-native-maps'
+import MapView ,{ Marker } from 'react-native-maps'
+import * as Permissions from 'expo-permissions';
 import styles  from './style';
 import { colorsStyle } from '../../common'
 import Slideshow from 'react-native-image-slider-show';
 import { Rating, AirbnbRating } from 'react-native-ratings';
-import buscarEnd  from '../../services/api-other'
+import {buscarEnd,getDataAddressGoogle}  from '../../services/api-other'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScrollView } from 'react-native-gesture-handler'
 import * as MailComposer from 'expo-mail-composer';
@@ -19,47 +20,80 @@ const index = () => {
     const route = useRoute();
 
     const service = route.params.service;
-    //console.log("Serviços",service);
+    console.log("Serviços",service);
     const [serviceTitle,setServiceTitle] = useState('Serviço');
     const [username,setUsername] = useState('')
 
-    const cep = service.endereco.cep
-    
-    const retornaEnd = async (cep)=>{
-        const end = await buscarEnd(cep)
-        console.log("End:v",end);
-        if (end != '' ) {
-          return end;          
-        } else {
-            return   '';         
-        }
-    }
+    const [region,setRegion ] = useState({
+         
+        latitude: -23.6176921,
+        longitude: -46.5912418,
+        latitudeDelta: 0.0042,
+        longitudeDelta: 0.0031
 
-    const  _retrieveData = async () => {
-        let dados_user = ""
-         try {
-           let value = await AsyncStorage.getItem('dados_usuario');
-           if (value !== null) {
-               //console.log('value',value)
-             dados_user = JSON.parse(value)
-             setUsername(dados_user.perfil.nome_completo)
-           }
-         return dados_user
-         } catch (error) {
-           console.log("37 -Detail-AsyncStorage",error)
-         }
-       };
-     //  
+    });
 
-     useEffect(() => {
-         console.log('Puxando os dados');
-         console.log('CEP',retornaEnd(cep));
-        _retrieveData();   
-     }, [])
-   
+    const [regionUser,setRegionUser ] = useState(null);
+
     const imagens = service.imagem_servicos; 
     const urls = extractUrlImage(imagens);
     const message =`Olá ${service.nomefantasia}, me chamo ${username}. Te encontrei pelo Tem no Helipa.` 
+    const cep = service.endereco.cep
+
+    async function _getLocation() {
+        const { status } = await Permissions.getAsync(Permissions.LOCATION);
+        
+        if ( status != 'granted' ) {
+            const response = await Permissions.askAsync(Permissions.LOCATION);
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            ({coords: { latitude,longitude } }) => {
+                setRegionUser({latitude,longitude,latitudeDelta: 0.0042,longitudeDelta: 0.0031});
+            },//success
+            () => {},//failure
+            {
+                timeout:2000,
+                enableHighAccuracy:true,
+                maximumAge:1000
+            }
+
+
+        );
+    }
+
+    const  _retrieveData = async () => {
+
+         try {
+
+            _getLocation() ;
+           
+            //Puxa o nome do usuário
+           let value = await AsyncStorage.getItem('dados_usuario');
+           if (value !== null) {            
+               value = JSON.parse(value);
+               setUsername(value.perfil.nome_completo);
+           }
+           
+           //busca latitude e longitude  do serviço
+           let {lat,lng} =  await getDataAddressGoogle(cep);
+           setRegion({
+               latitude:lat,
+               longitude:lng,
+               latitudeDelta: 0.0042,
+               longitudeDelta: 0.0031
+            });
+          
+
+         } catch (error) {
+           console.log("44 -Detail-AsyncStorage",error)
+         }
+    };
+
+     useEffect(() => {
+        _retrieveData();   
+     }, []);
+
     function extractUrlImage(imagens) {
         let url =[]
         imagens.map( (image)=>{
@@ -78,7 +112,6 @@ const index = () => {
         })
 
     }
-
     function sendWhats () {
         Linking.openURL(`whatsapp://send?text=${message}&phone=${5511957242030}`);
     }
@@ -119,23 +152,23 @@ const index = () => {
               <View style ={styles.detailContainer}>
                   <ScrollView>
                     {/* Title Service */}
-                    <>
+                    <View style={styles.subHeader}>
                         <View style={styles.detailTitleContainer}>
                             <Text style={styles.title}>{service.nomefantasia}</Text>
-                            <Rating  type = {'star'}  style={styles.rating} imageSize = {15} />                      
+                            <Rating  startingValue={parseFloat(service.nota_media)} fractions ={1} readonly type = {'star'}  style={styles.rating} imageSize = {15} />                      
                         </View>
                         <Text>{service.categoria[0]}</Text>
-                        { service.site != "" ? <Text>{service.site}</Text> : null }
-                    </>
+                        { service.site != "" ? <Text style = {styles.siteUrl}>{service.site}</Text> : null }
+                    </View>
                     {/* description service */}
                     <View style={styles.descServiceContainer}>
-                        <Text style={{alignSelf:'center'}}>{service.desc}</Text>
+                        <Text>{"   "+service.desc}</Text>
                     </View>
                         {/*schedule service */}
                     <View style = {styles.contactContainer}>
                         <Text style = {styles.titleContact}>Horário</Text>
-                        {service.servico_horario.map( (horario) =>{
-                            return ( <Text style = {styles.textContact}>  - {horario}</Text>)
+                        {service.servico_horario.map( (horario,index) =>{
+                            return ( <Text  key = {index} style = {styles.textContact}>  - {horario}</Text>)
                         })}
                        
                     </View>
@@ -143,10 +176,10 @@ const index = () => {
                     <View style = {styles.contactContainer}>
                         <Text style = {styles.titleContact}>Contato</Text>
                         <TouchableOpacity style={styles.containerButton} onPress = { () => sendEmail()}>
-                            <Text style = {styles.textContact}>  - Email: {service.email}</Text>
+                            <Text style = {styles.textContact}>  Email: {service.email}</Text>
                         </TouchableOpacity>    
                         <TouchableOpacity style={styles.containerButton} onPress = {() => sendWhats()}>
-                            <Text style = {styles.textContact}>  -Telefone: {service.servico_telefone[0]} <Icon name = {'whatsapp'} size = {20} style={styles.icon} color = {'green'}/></Text>                      
+                            <Text style = {styles.textContact}>  Telefone: {service.servico_telefone[0]} <Icon name = {'whatsapp'} size = {20} style={styles.icon} color = {'green'}/></Text>                      
                         </TouchableOpacity>
                     </View>
                         {/* address service */}
@@ -160,14 +193,18 @@ const index = () => {
                     <View style={styles.containerMap}>
                         <Text style = {styles.titleContact}>Localização</Text>
                         <MapView style= {styles.map}
-                        region={{
-                            latitude: 37.78825,
-                            longitude: -122.4324,
-                            latitudeDelta: 0.015,
-                            longitudeDelta: 0.0121,
-                            }}
-                                            
-                        />
+                            initialRegion={regionUser}
+                            showsUserLocation 
+                            loadingEnabled
+                            rotateEnabled={false}
+                            scrollEnabled={false}
+                            zoomEnabled={false}
+                            showsPointsOfInterest={false}
+                            showsBuildings={false}>
+                            <Marker 
+                                coordinate ={ region }
+                                title={service.nomefantasia} />
+                        </MapView>
                     </View>
                     </ScrollView>
                 </View>

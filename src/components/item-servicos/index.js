@@ -22,9 +22,8 @@ export default index = ({service,handleClick}) =>{
                 <View style= {styles.containerServiceInfo}>
                     <View style ={styles.infoText}>
                         <Text style ={styles.titleinfo}>{typeof service.categoria == null ? 'Construção' : service.categoria[0]}</Text>
-                        <Rating type = {'star'}  style={styles.rating} imageSize = {15} />
-                        {/* <Rating imageSize={15} readonly fractions={1}  startingValue={parseFloat(service.nota_media)} style ={styles.rating} /> */}
-                        <Text style ={styles.titleinfo}><Feather  name = 'clock'color = '#344955' size = {15}/> {typeof service.servico_horario == 'undefined' ? ' Seg à Sex' : service.servico_horario[0] } </Text>
+                        <Rating type = {'star'} imageSize={15} readonly fractions={1}  startingValue={typeof service.nota_media == 'undefined' ? 0 :parseFloat(service.nota_media)} style ={styles.rating} /> 
+                        {/*<Text style ={styles.titleinfo}><Feather  name = 'clock'color = '#344955' size = {15}/> {typeof service.servico_horario == 'undefined' ? ' Seg à Sex' : service.servico_horario[0] } </Text>*/}
                         <Text style ={styles.titleinfo}><Feather name = 'phone' color = '#344955' size = {15} /> {typeof service.servico_telefone == 'undefined' ? ' 99999 -9999' : service.servico_telefone[0]}</Text>
                        
                     </View>
