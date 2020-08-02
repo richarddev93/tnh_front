@@ -11,15 +11,15 @@ function CEP(str)
     // Caso o CEP não esteja nesse formato ele é inválido!
     var objER = /^[0-9]$/;
     str = str.trim()
-    console.log("str",str)
+    // console.log("str",str)
     if(str.length > 0)
         {
             if(objER.test(str)){
-            console.log("true")
+            // console.log("true")
                 return true;
             }
             else{
-            console.log('false')
+            // console.log('false')
                 return false;
             }
         }

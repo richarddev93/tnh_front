@@ -5,7 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import commonStyles from './commonStyles'
 /* ===== ROTAS HOME ===== */
 import Home from './screens/Home.js'
-import Favoritos from './screens/Favoritos/Index'
+import Favoritos from './screens/favoritos/index'
+import Categorias from './screens/categorias/index'
 import { color } from 'react-native-elements';
 /* ===== /// ===== */
 
@@ -34,7 +35,7 @@ export default function TabRoutes({navigation}) {
           <MaterialCommunityIcons name = "heart" color={color} size ={26} />
         )
       }}/>
-      <Tab.Screen name ="Categoria" component={Home}
+      <Tab.Screen name ="Categoria" component={Categorias}
       options={{
         tabBarLabel : 'Categorias',
         tabBarIcon :({ color }) => (

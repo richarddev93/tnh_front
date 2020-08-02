@@ -16,7 +16,7 @@ const colorsStyle = {
 }
 
 if (teste) {
-    server ='http://10.0.1.114:8000/api/' 
+    server ='http://10.0.1.102:8000/api/' 
 }else{
     server ='https://tnh-webservice.herokuapp.com/api/' 
 }

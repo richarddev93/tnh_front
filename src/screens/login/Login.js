@@ -62,7 +62,6 @@ export default class Login extends Component{
         this.setState({
             loading : true
         })
-        console.log("70")
         try{
             const res = await axios.post(`${serverLogin}`,{
                 email: this.state.email,
@@ -75,7 +74,6 @@ export default class Login extends Component{
             }
             
             axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
-            console.log("80")
             json = res.data
             status = res.status
         }catch(error){

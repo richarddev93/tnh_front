@@ -68,16 +68,16 @@ export default Index = () => {
     
     return (
         <View style = {styles.container}>
-                <Spinner
-                    //visibility of Overlay Loading Spinner
-                    visible={loading}
-                    //Text with the Spinner 
-                    textContent={'Carregando...'}
-                    size = {'large'}
-                    animation = {'fade'}
-                    //Text style of the Spinner Text
-                    textStyle={styles.spinnerTextStyle}
-                />
+            <Spinner
+                //visibility of Overlay Loading Spinner
+                visible={loading}
+                //Text with the Spinner 
+                textContent={'Carregando...'}
+                size = {'large'}
+                animation = {'fade'}
+                //Text style of the Spinner Text
+                textStyle={styles.spinnerTextStyle}
+            />
             <View style = {styles.headerStyle}>                    
                 <View >
                     <TouchableOpacity onPress={()=>Alert.alert("Voltando")}>
@@ -99,7 +99,11 @@ export default Index = () => {
                     showsVerticalScrollIndicator = {false}
                     renderItem ={ ({item:service}) =>(
                         <TouchableOpacity onPress ={() => navigateToDetailService( service )}>
-                            <Item service = {service} handleClick = {() => Alert.alert("Em Desenvolvimento")}/>
+                            <Item 
+                                service = {service} 
+                                handleClick = {() => Alert.alert("Em Desenvolvimento")}
+                                shimmerLoading ={!loading}
+                            />
                         </TouchableOpacity>
                     )}
                 />

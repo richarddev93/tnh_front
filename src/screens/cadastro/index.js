@@ -98,8 +98,6 @@ if (teste) {
     // route.refresh(this.state.email)    
     navigation.goBack();
     //.onSelect({ selected: true });
-        console.log("emailllllllllllll",navigation)
-        console.log("emailllllllllllll222222222222",route)
         await AsyncStorage.setItem('emaillogin', this.state.email);
         // this.props.navigation.state.route.onGoBack();
        // this.props.navigation.goBack()
@@ -124,7 +122,6 @@ if (teste) {
     }
     nextForm =()=>{
         let idForm = this.state.form + 1
-        console.log("PROPSSSS",this.props)
         if (idForm > 3){
             if(this.validateForm(this.state.form)){
                 this.signup()
@@ -132,7 +129,6 @@ if (teste) {
             this.validateForm(this.state.form)           
         }
         if(idForm==2){
-            console.log("1-----",this.state.form)
             if(this.validateForm(this.state.form)){
                 this.setState({
                     form:2,
@@ -192,14 +188,10 @@ if (teste) {
 
     }
     changeTag =(tags)=>{
-        console.log( JSON.stringify(tags),"tagsssss")
         let interesses =''
-        console.log("Tags Id")
         for (let i =0;i<=tags.length -1;i++){
-            console.log(tags[i].id)
             interesses= interesses + tags[i].id +','
         }
-        console.log("interesses",interesses)
         this.setState({
             tags,
             interesses
@@ -220,7 +212,6 @@ if (teste) {
             uf: this.state.uf,
             
         }
-        console.log(JSON.stringify(body))
     }
     //Form Acessos
     form1() {
@@ -472,7 +463,6 @@ if (teste) {
             case 1:
                 var objER = /^[0-9]$/;
                 if ( nome_completo == '' || nome_completo.length < 3 || objER.test(nome_completo)) {
-                    console.log(nome_completo,'*******nome')
                     Alert.alert('Atenção','Digite um Nome Válido !',[{text: 'Ok'},],{ cancelable: true })
                     return false 
                 }
@@ -481,7 +471,6 @@ if (teste) {
                     return false 
                 }
                 if (email == '' || !ValidaForm(email,'EMAIL')) {
-                    console.log('email',email)
                     Alert.alert('Atenção','Digite um email Válido !',[{text: 'Ok'},],{ cancelable: true })
                     return false 
                 }
@@ -563,7 +552,6 @@ if (teste) {
                     }
                  
                 )
-                console.log('response Cadastro',response.data)
                 //POST PERFIL
                 if (response.status == 201 && response.data.id){
                     
