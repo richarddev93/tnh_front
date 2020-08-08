@@ -39,7 +39,7 @@ export default function TabRoutes({navigation}) {
       options={{
         tabBarLabel : 'Categorias',
         tabBarIcon :({ color }) => (
-          <MaterialCommunityIcons name= "home" color ={color} size ={26} />
+          <MaterialCommunityIcons name= "format-list-bulleted-type" color ={color} size ={26} />
         ),
       }} /> 
       <Tab.Screen name = "Mapa" component={Favoritos} 
