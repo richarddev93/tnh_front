@@ -32,9 +32,9 @@ export default class AuthOrApp extends Component {
             //está inválido
         }
         if (userData && userData.token) {
-            console.log("1")
-            console.log(userData)
-            console.log(userData.token)
+            // console.log("1")
+            // // console.log(userData)
+            // console.log(userData.token)
 
             axios.defaults.headers.common['Authorization'] = `bearer ${userData.token}`
             this.navigateToHome(userData)

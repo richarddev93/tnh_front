@@ -20,37 +20,16 @@ export default Index = () => {
 
     const image = { uri: "https://reactjs.org/logo-og.png" };
     function navigateToListService (category) {
-        navigation.navigate('ListService',{ category });
+        navigation.navigate('ListServices',{ category });
     }
-   const  _retrieveData = async () => {
-       let dados_user = null
-        try {
-          let value = await AsyncStorage.getItem('dados_usuario');
-          if (value !== null) {
-              //console.log('value',value)
-            dados_user = JSON.parse(value)
-            setUserId(dados_user.id)
-          }
 
-          return dados_user
-        } catch (error) {
-          console.log("34 - _retrieveData() - Categorias",error)
-        }
-      }
     const NUM_COLUMNS = 2;
     async function loadCategories(){
 
-        const dados_user =  await _retrieveData()
-        //console.log(dados_user,"dados user")
         setLoading(true);
         try {
-            const response = await api.get('servico/categorias/',{
-                headers: { 
-                    Authorization: `Token ${dados_user.token}`,
-                    'Content-Type': 'application/json',
-                }
-            })
-          console.log(response.data)
+            const response = await api.get('servico/categorias/');
+        //    console.log(response.data)
            setCategories( response.data )
           
         } catch (error) {
@@ -98,13 +77,13 @@ export default Index = () => {
                             showsVerticalScrollIndicator = {false}
                             renderItem ={ ({item:categoria}) =>(
                                 
+                                <ImageBackground source = {{uri : categoria.img} } style = {styles.background}>
                                 <TouchableOpacity 
-                                    onPress ={() => alert( "Indo para a Lista de serviços da categorias" )}
+                                    onPress ={() => navigateToListService(categoria)}
                                     key={categoria.id} style={styles.containerItem}>
-                                      <ImageBackground source = {{uri : categoria.img} } style = {styles.background}>
                                         <Text style={styles.itemText}>{categoria.desc}</Text>
-                                      </ImageBackground>
                                 </TouchableOpacity>
+                                      </ImageBackground>
                             )}
                             numColumns ={NUM_COLUMNS}
                         />

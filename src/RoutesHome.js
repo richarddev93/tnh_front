@@ -7,12 +7,15 @@ import commonStyles from './commonStyles'
 import Home from './screens/Home.js'
 import Favoritos from './screens/favoritos/index'
 import Categorias from './screens/categorias/index'
+import ListServices from './screens/lista-servicos/'
 import { color } from 'react-native-elements';
 /* ===== /// ===== */
 
 // const Tab = createMaterialBottonNavigator();
 const Tab = createBottomTabNavigator()
 export default function TabRoutes({navigation}) {
+
+  console.log("Dentro do tab routes")
   return (
     <Tab.Navigator initialRouteName = "Home" 
     tabBarOptions={{
@@ -42,7 +45,7 @@ export default function TabRoutes({navigation}) {
           <MaterialCommunityIcons name= "format-list-bulleted-type" color ={color} size ={26} />
         ),
       }} /> 
-      <Tab.Screen name = "Mapa" component={Favoritos} 
+      <Tab.Screen name = "Mapa" component={ListServices} 
       options ={{
         tabBarLabel : 'Mapa',
         tabBarIcon : ({ color }) => (

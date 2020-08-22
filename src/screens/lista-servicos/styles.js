@@ -7,10 +7,7 @@ import Constants from 'expo-constants';
 export default StyleSheet.create({
     container:{
         flex:1,
-        padding :10,
-    },
-    containerList :{
-        flex:1,
+        padding :10
     },
     headerStyle: {
         flexDirection:'row',
@@ -36,35 +33,6 @@ export default StyleSheet.create({
         justifyContent : 'space-between'
     },
    list :{
-    marginTop : 10,
-   } ,
-   containerItem :{
-       backgroundColor:'#34495595',
-       padding:2,
-       
-   },
-   itemText :{
-       fontSize: 18,
-       fontWeight:'bold',
-       color:'#fff',
-       marginLeft:3,
-   },
-   background :{
-    flex:1,
-    // alignItems:'center',
-    margin:5,
-    justifyContent:'flex-end',
-    height:80,
-    borderRadius : 3,
-    borderColor :'gray',
-    shadowColor: "#000",
-    shadowOffset: {
-        width: 0,
-        height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 3,    
-
-   }
+    marginTop : 15,
+   } 
 })

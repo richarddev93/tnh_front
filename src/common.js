@@ -16,8 +16,8 @@ const colorsStyle = {
 }
 
 if (teste) {
-    //server ='http://10.0.1.102:8000/api/' 
-    server ='http://10.0.1.114:8000/api/' 
+    server ='http://10.0.1.102:8000/api/' 
+    // server ='http://10.0.1.114:8000/api/' 
 }else{
     server ='https://tnh-webservice.herokuapp.com/api/' 
 }
@@ -35,4 +35,26 @@ function showSuccess(msg) {
 //     return {data}
 // }
 
-export {server,showError, showSuccess,teste,colorsStyle}
+
+const geraUsername = (nome,qtdCaract) =>{
+
+    const BASE_STRING = "abcdefghijklmnopqrstuvxwyz#@!$%&ABCDESFGHIJKLMNOPKRSTUVZWYZ0123456789"
+    
+    const getIntRandom =(min,max) =>{
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    let aux=""
+
+    for (let i=0;i<qtdCaract;i++){
+      aux += BASE_STRING[getIntRandom(0,BASE_STRING.length)];
+    }
+    
+    aux = ` ${nome}_${aux}`
+    return aux;
+
+}
+
+export {server,showError, showSuccess,teste,colorsStyle,geraUsername}

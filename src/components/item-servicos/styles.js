@@ -21,12 +21,12 @@ export default StyleSheet.create({
         height:18        
     },
     titlevalue :{
-        fontSize:18,
+        fontSize:16,
         color: '#344955',
         padding: 1,
     },
     titleinfo :{
-        fontSize: 16,
+        fontSize: 14,
         color: '#000',
         padding: 1,
 

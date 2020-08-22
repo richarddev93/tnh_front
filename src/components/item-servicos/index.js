@@ -7,16 +7,19 @@ import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
 
 export default index = ({service,handleClick,shimmerLoading}) =>{
-    const distancia = null
-    const horario = null
-    const tel = null
-    const categoria = null
-    
-    let loading = typeof shimmerLoading == 'undefined' ? true :shimmerLoading
+
+    let imageService = null;
+    let loading = typeof shimmerLoading == 'undefined' ? true :shimmerLoading ;
+
+    imageService = typeof service.imagem_servicos[0]  === 'undefined'  || typeof service.imagem_servicos[0].imagem  === 'undefined' 
+                    ? 'https://img.icons8.com/metro/52/000000/shop.png'
+                    :  service.imagem_servicos[0].imagem ;
+
     return (
         <View style={styles.containerItem}>
             <ShimmerPlaceHolder style= {styles.imageShimmer} autoRun ={true} visible = {loading}>
-                <Image style={styles.image}  source={service.imagem_servicos[0].imagem ? {uri : service.imagem_servicos[0].imagem} : {uri: 'https://img.icons8.com/metro/52/000000/shop.png',}}/>
+                {/* <Image style={styles.image}  source={ imageService ? {uri : imageService } : {uri: 'https://img.icons8.com/metro/52/000000/shop.png'}}/>                 */}
+                <Image style={styles.image}  source={ { uri : imageService } }/>                
             </ShimmerPlaceHolder>
             <View style={styles.containerDetail}>
                 <View style ={styles.titleDetailContainer}>
