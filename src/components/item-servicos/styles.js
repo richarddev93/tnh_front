@@ -17,13 +17,16 @@ export default StyleSheet.create({
         fontWeight : 'bold'
         
     },
+    titleShimmer:{
+        height:18        
+    },
     titlevalue :{
-        fontSize:18,
+        fontSize:16,
         color: '#344955',
         padding: 1,
     },
     titleinfo :{
-        fontSize: 16,
+        fontSize: 14,
         color: '#000',
         padding: 1,
 
@@ -38,10 +41,11 @@ export default StyleSheet.create({
     },
     containerItem :{
         flexDirection:'row',
+        alignItems:'center',
         borderRadius : 3,
         borderColor :'gray',
         backgroundColor:'#FFF',
-        padding :3,
+        paddingHorizontal :9,
         marginBottom :10,
         shadowColor: "#000",
         shadowOffset: {
@@ -62,13 +66,12 @@ export default StyleSheet.create({
         width:80,
         height :80,
         padding:5,
-        marginRight : 3
+        marginRight : 3,
+        borderRadius : 3,
     },
     containerServiceInfo :{
         flexDirection : 'row',
-        flex:2,
-        paddingLeft : 2
-
+        flex:2,        
     },
     infoText :{
         flex:3,
@@ -85,6 +88,25 @@ export default StyleSheet.create({
     rating:{
         alignContent:'flex-start',
         alignItems :'flex-start'
-    }
-
+    },
+    buttonFavoritesShimmer :{
+        height:35,
+        width :35
+    },
+    infoTextShimmer :{
+        height:45,
+        marginTop:5
+    },
+    imageShimmer :{
+        width:80,
+        height :80,
+        marginRight : 3,
+        borderRadius : 3,
+    },
+    // containerButtonFavorites :{
+    //     borderColor:'black',
+    //     borderWidth :2
+    // }
+    
+    
 })
