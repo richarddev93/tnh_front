@@ -75,11 +75,6 @@ if (teste) {
                 const response = await api.post('rest-auth/password/reset/',
                     {                 
                         email : this.state.email,
-                    },
-                    {
-                        headers: { 
-                            'Content-Type': 'application/json',
-                        }
                     }
                  
                 )

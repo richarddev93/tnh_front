@@ -5,14 +5,30 @@ let ScreenHeight = Dimensions.get('window').height
 import Constants from 'expo-constants';
 export default  StyleSheet.create({
     /* Containers */
-    container:{
-       flex:1  ,      
-       paddingHorizontal:10,
-       justifyContent: 'space-between',
+      container: {
+        flex: 1,
     },
+    header: {
+        flex:0.2,
+        justifyContent:'flex-end',
+        alignItems:'flex-start',
+        
+    },
+    
+    footer: {
+      flex:1,
+      // alignItems:'center',
+      backgroundColor:'#f3f5f6',
+      borderTopLeftRadius:20,
+      borderTopRightRadius:20,
+      paddingVertical:50,
+      paddingHorizontal:30,
+
+  },
     headerStyle: {
         flexDirection:'row',
         marginTop: 1,
+        marginLeft:5,
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop:Constants.statusBarHeight + 10 ,
@@ -26,9 +42,9 @@ export default  StyleSheet.create({
     },
     containerForm: {
       
-      alignItems: 'center',
-      alignContent:'center',
-      padding: 10,
+      // alignItems: 'center',
+      // alignContent:'center',
+      // padding: 10,
       // justifyContent:'center'
     
     },
@@ -49,7 +65,7 @@ export default  StyleSheet.create({
     },
     label:{
         fontSize: 15,
-        color: '#344955',
+        color: 'gray',
         
     },
     textPass: {
@@ -105,27 +121,29 @@ export default  StyleSheet.create({
     },
 
     button:{
+      flexDirection:'row',
         height: 45,
-        width: '80%',
+        width: '90%',
         backgroundColor: commonStyles.colors.secondary,
         borderRadius: 5,
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent:'space-evenly'
  
     },
    
     buttonText:{
         fontSize: 15,
         color: '#FFF',
-        alignItems: 'center',
-        justifyContent: 'center'
+
     },
     radioGroup :{
         flexDirection : 'row',
         alignItems: 'center'
     },
     buttonContainer: {
-        padding: 15,
+      marginTop:20,
+        padding: 5,
+        alignItems:'center'
       },
       buttonInner: {
         marginBottom: 15,

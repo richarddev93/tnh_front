@@ -9,8 +9,6 @@ import api from '../../services/api'
 import Spinner from 'react-native-loading-spinner-overlay';
 
 
-
-
 export default Index = () => {
 
     const navigation = useNavigation()
@@ -44,12 +42,7 @@ export default Index = () => {
         //console.log(dados_user,"dados user")
         setLoading(true);
         try {
-            const response = await api.get('servico/servicosfavoritos/'+dados_user.id+'/',{
-                headers: { 
-                    Authorization: `Token ${dados_user.token}`,
-                    'Content-Type': 'application/json',
-                }
-            })
+            const response = await api.get('servico/servicosfavoritos/'+dados_user.id+'/');
           // console.log(response.data)
            setServices( response.data )
           
@@ -68,16 +61,16 @@ export default Index = () => {
     
     return (
         <View style = {styles.container}>
-                <Spinner
-                    //visibility of Overlay Loading Spinner
-                    visible={loading}
-                    //Text with the Spinner 
-                    textContent={'Carregando...'}
-                    size = {'large'}
-                    animation = {'fade'}
-                    //Text style of the Spinner Text
-                    textStyle={styles.spinnerTextStyle}
-                />
+            <Spinner
+                //visibility of Overlay Loading Spinner
+                visible={loading}
+                //Text with the Spinner 
+                textContent={'Carregando...'}
+                size = {'large'}
+                animation = {'fade'}
+                //Text style of the Spinner Text
+                textStyle={styles.spinnerTextStyle}
+            />
             <View style = {styles.headerStyle}>                    
                 <View >
                     <TouchableOpacity onPress={()=>Alert.alert("Voltando")}>
@@ -99,7 +92,11 @@ export default Index = () => {
                     showsVerticalScrollIndicator = {false}
                     renderItem ={ ({item:service}) =>(
                         <TouchableOpacity onPress ={() => navigateToDetailService( service )}>
-                            <Item service = {service} handleClick = {() => Alert.alert("Em Desenvolvimento")}/>
+                            <Item 
+                                service = {service} 
+                                handleClick = {() => Alert.alert("Em Desenvolvimento")}
+                                shimmerLoading ={!loading}
+                            />
                         </TouchableOpacity>
                     )}
                 />
@@ -111,5 +108,3 @@ export default Index = () => {
         </View>
     )
 }
-
-

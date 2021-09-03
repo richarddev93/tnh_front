@@ -5,13 +5,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import commonStyles from './commonStyles'
 /* ===== ROTAS HOME ===== */
 import Home from './screens/Home.js'
-import Favoritos from './screens/Favoritos/Index'
+import Favoritos from './screens/favoritos/index'
+import Categorias from './screens/categorias/index'
+import ListServices from './screens/lista-servicos/'
 import { color } from 'react-native-elements';
 /* ===== /// ===== */
 
 // const Tab = createMaterialBottonNavigator();
 const Tab = createBottomTabNavigator()
 export default function TabRoutes({navigation}) {
+
+  console.log("Dentro do tab routes")
   return (
     <Tab.Navigator initialRouteName = "Home" 
     tabBarOptions={{
@@ -34,14 +38,14 @@ export default function TabRoutes({navigation}) {
           <MaterialCommunityIcons name = "heart" color={color} size ={26} />
         )
       }}/>
-      <Tab.Screen name ="Categoria" component={Home}
+      <Tab.Screen name ="Categoria" component={Categorias}
       options={{
         tabBarLabel : 'Categorias',
         tabBarIcon :({ color }) => (
-          <MaterialCommunityIcons name= "home" color ={color} size ={26} />
+          <MaterialCommunityIcons name= "format-list-bulleted-type" color ={color} size ={26} />
         ),
       }} /> 
-      <Tab.Screen name = "Mapa" component={Favoritos} 
+      <Tab.Screen name = "Mapa" component={ListServices} 
       options ={{
         tabBarLabel : 'Mapa',
         tabBarIcon : ({ color }) => (

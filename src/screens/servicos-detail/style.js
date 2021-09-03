@@ -47,7 +47,11 @@ export default StyleSheet.create({
     title:{
         fontSize: 20,
         color: '#344955',
-        fontWeight : 'bold'
+    },
+    titleHeader:{
+        fontSize: 20,
+        color: '#344955',
+        fontWeight: "bold"
     },
     containerSlider :{
         padding:10,

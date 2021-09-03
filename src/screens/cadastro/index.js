@@ -4,22 +4,26 @@ import {View,
         TouchableOpacity,
         KeyboardAvoidingView,
         Alert,
-        AsyncStorage
+        AsyncStorage,
+        ImageBackground
     } from 'react-native'
 import Toast from 'react-native-root-toast';
-import { TextInput} from 'react-native-paper';
 import styles from './styles'
 import * as Permissions from 'expo-permissions';
 import { TagSelect } from 'react-native-tag-select-max';
 import { CheckBox } from 'react-native-elements'
 import {Feather} from '@expo/vector-icons'
 import Spinner from 'react-native-loading-spinner-overlay';
-import { ScrollView } from 'react-native-gesture-handler';
+import {  Item, Input } from 'native-base';
+import * as Animatable from  'react-native-animatable';
+import fundo from '../../../assets/imgs/background/fundoDefinitivo.jpg'
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 import ValidaForm from  '../../validateForm'
 import buscarEnd  from '../../services/api-other'
 import api from '../../services/api'
-import {showError,teste} from '../../common'
+import {showError,teste,geraUsername} from '../../common'
 
 let initialState = null
 if (teste) {
@@ -50,7 +54,8 @@ if (teste) {
         titleForm : 'Vamos Começar ?',
         subTitleForm:'Dados de Acesso',
         isloading:false,
-        secureTextEntry:true
+        secureTextEntry:true,
+        secureTextEntry2:true
 
     }
 } else {
@@ -81,7 +86,8 @@ if (teste) {
         titleForm : 'Vamos Começar ?',
         subTitleForm:'Dados de Acesso',
         isloading:false,
-        secureTextEntry:true
+        secureTextEntry:true,
+        secureTextEntry2:true,
     
     }
 }
@@ -98,16 +104,16 @@ if (teste) {
     // route.refresh(this.state.email)    
     navigation.goBack();
     //.onSelect({ selected: true });
-        console.log("emailllllllllllll",navigation)
-        console.log("emailllllllllllll222222222222",route)
         await AsyncStorage.setItem('emaillogin', this.state.email);
         // this.props.navigation.state.route.onGoBack();
        // this.props.navigation.goBack()
         
     }
+
     navigateToBack =() =>{
         this.props.navigation.goBack()
     }
+
     componentDidMount(){
         //buscarEnd('04235370')
         this.registerForPushNotificationsAsync()
@@ -117,14 +123,32 @@ if (teste) {
         })
     }
 
-    hideOrShowPassword = () =>{
-        this.setState({
-            secureTextEntry : !this.state.secureTextEntry
-        })
+    // hideOrShowPassword = () =>{
+    //     this.setState({
+    //         secureTextEntry : !this.state.secureTextEntry
+    //     })
+    // }
+    hideOrShowPassword = (secureText,x) =>{
+        console.log(secureText)
+
+        switch (x) {
+            case 1:
+                this.setState({
+                    secureTextEntry: !secureText
+                })
+                
+                break;
+            case 2:
+                this.setState({
+                    secureTextEntry2: !secureText
+                })
+            default:
+                break;
+        }
     }
+
     nextForm =()=>{
         let idForm = this.state.form + 1
-        console.log("PROPSSSS",this.props)
         if (idForm > 3){
             if(this.validateForm(this.state.form)){
                 this.signup()
@@ -132,7 +156,6 @@ if (teste) {
             this.validateForm(this.state.form)           
         }
         if(idForm==2){
-            console.log("1-----",this.state.form)
             if(this.validateForm(this.state.form)){
                 this.setState({
                     form:2,
@@ -152,6 +175,7 @@ if (teste) {
             }
         }  
     }
+
     previousForm =()=>{
         let idForm = this.state.form
         if (idForm == 3){
@@ -191,15 +215,12 @@ if (teste) {
         }
 
     }
+
     changeTag =(tags)=>{
-        console.log( JSON.stringify(tags),"tagsssss")
         let interesses =''
-        console.log("Tags Id")
         for (let i =0;i<=tags.length -1;i++){
-            console.log(tags[i].id)
             interesses= interesses + tags[i].id +','
         }
-        console.log("interesses",interesses)
         this.setState({
             tags,
             interesses
@@ -220,80 +241,84 @@ if (teste) {
             uf: this.state.uf,
             
         }
-        console.log(JSON.stringify(body))
     }
+    genaratorUser = (nome)=>{
+
+        return nome;
+    }
+
     //Form Acessos
     form1() {
         return (
             <View style = {styles.containerForm}>
-                <TextInput style = {styles.input}
+                <View  style={{width:'100%', marginBottom:8}}>
+                    <Text style={styles.label}>Nome</Text>
+                    <Item>
+                        <Input 
                             autoCompleteType = 'name'
                             value = {this.state.nome_completo}
                             label = 'Nome completo'
                             placeholder = {'Ex.: Tio Flavão'}
                             placeholderTextColor = {'#AAA'}
-                            mode = 'outlined' 
                             onChangeText = {nome_completo => this.setState({nome_completo})}
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            keyboardType = {'default'}
-                            />  
+                            keyboardType = {'default'}/>              
+                    </Item>
+                </View>
                 
-                <TextInput style = {styles.input}
-                            autoCompleteType = 'off'
-                            value = {this.state.username}
-                            label = 'Usuário'
-                            placeholder = {'Ex.: Aninha94'}
-                            placeholderTextColor = {'#AAA'}
-                            mode = 'outlined'
-                            onChangeText = {username => this.setState({username})}
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            keyboardType = {'default'} />
-
-                <TextInput style = {styles.input}
+                <View  style={{width:'100%', marginBottom:8}}>
+                     <Text style={styles.label}>Email</Text>
+                    <Item>
+                        <Input 
                             autoCompleteType = 'email'
                             value = {this.state.email}
                             label = 'E-mail'
                             placeholder = {'Ex.: Aninha94@email.com'}
                             placeholderTextColor = {'#AAA'}
-                            mode = 'outlined'
                             onChangeText = {email => this.setState({email})}
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             keyboardType = {'email-address'} />
+                    </Item>
+                </View>
 
-                <View style ={styles.containerPass}>
-                    <TextInput style = {styles.inputPassword}
+                <View  style={{width:'100%', marginBottom:8}}>
+                    <Text style={styles.label}>Senha</Text>
+                    <Item>
+                        <Input 
                             autoCompleteType = 'password'
                             value = {this.state.password}
                             label = 'Senha'
                             placeholder = {'Informe a senha'}
                             placeholderTextColor = {'#AAA'}
-                            mode = 'outlined'
                             secureTextEntry ={this.state.secureTextEntry}
                             onChangeText = {password => this.setState({password})}
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            keyboardType = {'default'}
-                             />
-
-                        <TouchableOpacity onPress={this.hideOrShowPassword} style ={styles.buttonShowPass}>
-                        <Feather name = { ( this.state.secureTextEntry) ? 'eye' : 'eye-off' }  size = {25} style={styles.icon} color = {'#F9AA33'}/>
-                        </TouchableOpacity>
-
-
+                            keyboardType = {'default'}/>
+                            <TouchableOpacity onPress={()=> this.hideOrShowPassword(this.state.secureTextEntry,1)}>
+                                <Feather name = { ( this.state.secureTextEntry) ? 'eye' : 'eye-off' }  size = {20} style={styles.icon} color = {'#F9AA33'}/>
+                            </TouchableOpacity>
+                    </Item>
                 </View>
-                
 
-                <TextInput style = {[styles.input]}
+                <View  style={{width:'100%', marginBottom:8}}>
+                    <Text style={styles.label}>Confirme a Senha</Text>
+                    <Item>
+                        <Input 
                             autoCompleteType = 'password'
                             value = {this.state.password2}
                             label = 'Confirme a Senha'
                             placeholder = {'Confirme a senha'}
                             placeholderTextColor = {'#AAA'}
-                            mode = 'outlined'
-                            secureTextEntry ={true}
+                            secureTextEntry ={this.state.secureTextEntry2}
                             onChangeText = {password2 => this.setState({password2})}
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
                             keyboardType = {'default'}/>
-                <TextInput style = {styles.input}
+                        <TouchableOpacity onPress={() =>this.hideOrShowPassword(this.state.secureTextEntry2,2)} >
+                            <Feather name = { ( this.state.secureTextEntry2) ? 'eye' : 'eye-off' }  size = {20} style={styles.icon} color = {'#F9AA33'}/>
+                        </TouchableOpacity>
+                    </Item>
+                </View>
+
+                <View  style={{width:'100%', marginBottom:8}}>
+                   <Text style={styles.label}>Telefone</Text>   
+                    <Item>
+                        <Input
                             autoCompleteType = 'off'
                             value = {this.state.telefone}
                             label = 'Telefone'
@@ -301,82 +326,92 @@ if (teste) {
                             placeholderTextColor = {'#AAA'}
                             mode = 'outlined' 
                             onChangeText = {telefone => this.setState({telefone})}
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            keyboardType ={'number-pad'}
-                            />  
-
+                            keyboardType ={'number-pad'} />  
+                    </Item>
+                </View>
             
-        </View>
+           </View>
         )
     }
+
     //Form Endereço
     form2() {
-        return (
-            
+        return (            
             <View style = {styles.containerForm}>
+                    <View style={{width:'100%',marginTop:8}}>
+                        <Text style={styles.label}>CEP</Text>
+                        <Item>
+                            <Input 
+                                label = {'Cep'}
+                                autoCompleteType = 'postal-code'
+                                value = {this.state.cep}
+                                placeholder = {'Ex. 04235-420'}
+                                placeholderTextColor = {'#AAA'}
+                                onChangeText = {cep => this.setState({cep})}
+                                onSubmitEditing = {cep => this.retornaEnd(this.state.cep)}
+                                keyboardType = {'number-pad'}/>  
+                        </Item>
+                    </View>
 
-            <TextInput style = {styles.input}
-                            label = {'Cep'}
-                            autoCompleteType = 'postal-code'
-                            value = {this.state.cep}
-                            placeholder = {'Ex. 04235-420'}
-                            placeholderTextColor = {'#AAA'}
-                            mode = 'outlined' 
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            onChangeText = {cep => this.setState({cep})}
-                            onSubmitEditing = {cep => this.retornaEnd(this.state.cep)}
-                            keyboardType = {'number-pad'}/>  
-
-
-                <TextInput style = {styles.input}
-                            label = {'Logradouro'}
-                            autoCompleteType = 'off'
-                            value = {this.state.logradouro}
-                            placeholder = {'Ex. Rua da União'}
-                            mode = 'outlined' 
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            placeholderTextColor = {'#AAA'}
-                            onChangeText = {logradouro => this.setState({logradouro})}
-                            keyboardType = {'email-address'} />
-
-                <TextInput style = {styles.input}
-                            label = {'Número'}
-                            autoCompleteType = 'cc-number'
-                            value = {this.state.num_lograd}
-                            placeholder = {'Ex. 12'}
-                            mode = 'outlined' 
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            placeholderTextColor = {'#AAA'}
-                            onChangeText = {num_lograd => this.setState({num_lograd})}
-                            keyboardType = {'default'} />
-                
-                <TextInput style = {styles.input}
-                            label ={'Complemento'}
-                            autoCompleteType = 'off'
-                            value = {this.state.complemento}
-                            placeholder = {'Ex. Perto do Bar'}
-                            mode = 'outlined' 
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            placeholderTextColor = {'#AAA'}
-                            onChangeText = {complemento => this.setState({complemento})}
-                            keyboardType = {'default'}/>                 
-                
-                <TextInput style = {styles.input}
-                            autoCompleteType = 'off'
-                            value = {this.state.bairro}
-                            label = 'Bairro'
-                            placeholder = {'Ex.: Heliópolis'}
-                            placeholderTextColor = {'#AAA'}
-                            mode = 'outlined'
-                            onChangeText = {user => this.setState({user})}
-                            theme={{colors: {primary: '#F9AA33', underlineColor: 'transparent'}}}
-                            keyboardType = {'default'} />
+                    <View style={{width:'100%',marginTop:8}}>
+                        <Text style={styles.label}>Rua</Text>
+                        <Item>
+                            <Input 
+                                label = {'Logradouro'}
+                                autoCompleteType = 'off'
+                                value = {this.state.logradouro}
+                                placeholder = {'Ex. Rua da União'}
+                                placeholderTextColor = {'#AAA'}
+                                onChangeText = {logradouro => this.setState({logradouro})}
+                                keyboardType = {'email-address'} />
+                        </Item>
+                    </View>
+                    <View style={{width:'100%',marginTop:8}}>
+                        <Text style={styles.label}>Número</Text>
+                        <Item>
+                            <Input 
+                                label = {'Número'}
+                                autoCompleteType = 'cc-number'
+                                value = {this.state.num_lograd}
+                                placeholder = {'Ex. 12'}
+                                placeholderTextColor = {'#AAA'}
+                                onChangeText = {num_lograd => this.setState({num_lograd})}
+                                keyboardType = {'default'} />
+                        </Item>
+                    </View>
+                    <View style={{width:'100%',marginTop:8}}>
+                        <Text style={styles.label}>Complemento</Text>
+                        <Item>
+                            <Input 
+                                label ={'Complemento'}
+                                autoCompleteType = 'off'
+                                value = {this.state.complemento}
+                                placeholder = {'Ex. Perto do Bar'}
+                                placeholderTextColor = {'#AAA'}
+                                onChangeText = {complemento => this.setState({complemento})}
+                                keyboardType = {'default'}/>                 
+                        </Item>
+                    </View>
+                    <View style={{width:'100%',marginTop:8}}>
+                        <Text style={styles.label}>Bairro</Text>
+                        <Item>
+                            <Input 
+                                autoCompleteType = 'off'
+                                value = {this.state.bairro}
+                                label = 'Bairro'
+                                placeholder = {'Ex.: Heliópolis'}
+                                placeholderTextColor = {'#AAA'}
+                                onChangeText = {user => this.setState({user})}
+                                keyboardType = {'default'} />
+                        </Item>
+                    </View>
 
 
             
         </View>
         )
     }
+
     //Form Termos
     form3() {
 
@@ -472,7 +507,6 @@ if (teste) {
             case 1:
                 var objER = /^[0-9]$/;
                 if ( nome_completo == '' || nome_completo.length < 3 || objER.test(nome_completo)) {
-                    console.log(nome_completo,'*******nome')
                     Alert.alert('Atenção','Digite um Nome Válido !',[{text: 'Ok'},],{ cancelable: true })
                     return false 
                 }
@@ -481,7 +515,6 @@ if (teste) {
                     return false 
                 }
                 if (email == '' || !ValidaForm(email,'EMAIL')) {
-                    console.log('email',email)
                     Alert.alert('Atenção','Digite um email Válido !',[{text: 'Ok'},],{ cancelable: true })
                     return false 
                 }
@@ -539,18 +572,27 @@ if (teste) {
        return true
 
     }
+
     //Função de cadastro
     signup = async () => {
         let json,json2
+
+        const  ind = this.state.nome_completo.indexOf(" ")
+        let firstName = this.state.nome_completo.substring(0,ind);
+        firstName = firstName.toLowerCase()
+        console.log(firstName);
         let status,status2
-        this.setState({
-            isloading : true
-        })
+
+        if(this.validateForm(this.state.form)){
+            
+            this.setState({
+                isloading : true
+            })
                
             try {
                 // const response = await axios.post(servercadastro,{
                 const response = await api.post('cadastro/usuario',{
-                    username  : this.state.username,
+                    username  : geraUsername(firstName,5),
                     email     : this.state.email,
                     password  : this.state.password,
                     password2 : this.state.password2,
@@ -563,22 +605,22 @@ if (teste) {
                     }
                  
                 )
-                console.log('response Cadastro',response.data)
                 //POST PERFIL
                 if (response.status == 201 && response.data.id){
                     
                      const response2 = await api.post('cadastro/perfil/'+ response.data.id +'/',{
                         
                             nome_completo: this.state.nome_completo,
-                            interesses:this.state.interesses ,
-                            tpLograd:this.state.tpLograd ,
-                            lograd: this.state.logradouro,
-                            num: this.state.num_lograd,
-                            compl: this.state.complemento,
-                            bairro: this.state.bairro ,
-                            locali: this.state.localidade,
-                            cep: this.state.cep,
-                            uf: this.state.uf,
+                            //interesses:this.state.interesses ,
+                            // tpLograd:this.state.tpLograd ,
+                            // lograd: this.state.logradouro,
+                            // num: this.state.num_lograd,
+                            // compl: this.state.complemento,
+                            // bairro: this.state.bairro ,
+                            // locali: this.state.localidade,
+                            // cep: this.state.cep,
+                            // uf: this.state.uf,
+                            tel:this.state.telefone,
                             user: response.data.id
                           
                         },{
@@ -643,10 +685,12 @@ if (teste) {
             });
                this.navigateToLogin()
             }
-        
+
+         } else {
+            return
+        }
     }
-        
-    
+
     registerForPushNotificationsAsync = async () => {
         const { status: existingStatus } = await Permissions.getAsync(
           Permissions.NOTIFICATIONS
@@ -691,37 +735,42 @@ if (teste) {
                     textStyle={styles.spinnerTextStyle}
                 />
                 <KeyboardAvoidingView   behavior="padding" enabled> 
-                    <View style = {styles.headerStyle}>                    
-                        <View >
-                            <TouchableOpacity onPress={this.previousForm}>
-                                <Feather name= 'arrow-left' size = {28} color='#F9AA33'></Feather>
-                            </TouchableOpacity>                      
-                        </View>
-                        <View style = {styles.containerTitle}>
-                                <Text style = {styles.title}>{this.state.subTitleForm}</Text>
-                                {/* <Text style = {styles.subTitle}>{this.state.subTitleForm}</Text> */}
-                        </View>
-                        <View style ={{width:28}}/>
-                    </View>
-                    <View >
-                        {this.state.form ==1 ? this.form1() 
-                        :this.state.form ==2 ? this.form2()
-                        :this.form3()
-                        }
-                    </View>
+                <ImageBackground source={fundo} style={{width: '100%', height: '100%'}}>
+                        <Animatable.View style={styles.header} animation={'fadeInDownBig'}>
+                            <View style = {styles.headerStyle}>                    
+                                <View >
+                                    <TouchableOpacity onPress={this.previousForm}>
+                                        <Feather name= 'arrow-left' size = {28} color='#f8f8f8'></Feather>
+                                    </TouchableOpacity>                      
+                                </View>
+                                <View style = {styles.containerTitle}>
+                                        <Text style = {styles.title}>{this.state.subTitleForm}</Text>
+                                        {/* <Text style = {styles.subTitle}>{this.state.subTitleForm}</Text> */}
+                                </View>
+                                <View style ={{width:28}}/>
+                            </View>
+                        </Animatable.View>
+
+                        <Animatable.View style={styles.footer} animation={'fadeInUpBig'}>
+                            <View >
+                             {  this.form1() }                               
+                            </View>
+
+                            <View style = {styles.buttonContainer}>
+                                <TouchableOpacity onPress ={ this.signup}>
+                                    <LinearGradient
+                                        colors={['#46505C','#344955']}
+                                        style={styles.button} >
+                                        <Text style={styles.buttonText}>Cadastrar</Text>
+                                    </LinearGradient>
+                                </TouchableOpacity>
+                            </View>
+
+
+                        </Animatable.View>
+
+                    </ImageBackground>
                 </KeyboardAvoidingView>
-                
-                
-                    <View style = {styles.containerButton}>
-
-                        <TouchableOpacity style = {styles.button}
-                            onPress = {
-                            this.nextForm
-                            }>
-                            <Text style = {styles.buttonText}> {this.state.valueButton} </Text>
-                        </TouchableOpacity>    
-
-                    </View>
                 
                
             </View>

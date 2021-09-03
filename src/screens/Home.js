@@ -10,7 +10,6 @@ import {
     AsyncStorage
 } from 'react-native'
 
-import Favoritos from '../components/components-menu/screens/Favoritos'
 
 import Feather from 'react-native-vector-icons/Feather'
 
