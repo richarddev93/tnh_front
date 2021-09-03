@@ -8,10 +8,11 @@ export default props => {
  
 
     return(
-        <View style = {styles.container}> 
-                
+        <View style = {styles.container}>   
             <Icon name = {props.icon} size = {20} style={styles.icon} color = {'#AAA'}/>
             <TextInput {...props} style = {styles.input}/>
+            <Icon name = {props.icon2} size = {20} style = {styles.icon2}/>
+        
             {props.showIconEyepassword ? 
                 <TouchableOpacity onPress = { props.handleVisibility} >
                     <Icon name = { ( props.secureTextEntry) ? 'eye' : 'eye-slash' }  size = {18} style={styles.icon} color = {'#AAA'}/>
@@ -25,7 +26,7 @@ export default props => {
 const styles = StyleSheet.create({
     container: {
         width: 320,
-        height: 45,
+        height: 50,
         margin: 5,
         backgroundColor: '#eee',
         borderRadius: 8,
@@ -36,9 +37,11 @@ const styles = StyleSheet.create({
     icon:{
         color: '#AAA',
         marginLeft: 20,
+        padding: 10
     },
     input: {
-        marginLeft: 20,
-        width: '70%',
+        marginLeft: 0,
+        width: '80%',
+        fontSize: 15,
     }
 })
